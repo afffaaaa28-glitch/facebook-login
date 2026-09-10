@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Facebook - Log In or Sign Up</title>
+    <title>فيسبوك - تسجيل الدخول أو إنشاء حساب</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Helvetica, Arial, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
         
         body {
             background: #f0f2f5;
@@ -74,6 +74,8 @@
             color: #1d2129;
             outline: none;
             transition: 0.2s;
+            text-align: right;
+            direction: rtl;
         }
         
         .input-field:focus {
@@ -97,7 +99,7 @@
             cursor: pointer;
             transition: 0.2s;
             margin-top: 6px;
-            font-family: Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         }
         
         .login-btn:hover { background: #166fe5; }
@@ -116,7 +118,7 @@
             border: none;
             width: 100%;
             cursor: pointer;
-            font-family: Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         }
         
         .forgot-link:hover { text-decoration: underline; }
@@ -141,7 +143,7 @@
             text-decoration: none;
             text-align: center;
             transition: 0.2s;
-            font-family: Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         }
         
         .create-btn:hover { background: #36a420; }
@@ -222,7 +224,7 @@
                 <path fill="#1877f2" d="M631.25,0H35.42C15.85,0,0,15.85,0,35.42v62.5c0,19.57,15.85,35.42,35.42,35.42h595.83c19.57,0,35.42-15.85,35.42-35.42V35.42C666.67,15.85,650.81,0,631.25,0z"/>
                 <text x="333" y="85" font-family="Helvetica, Arial, sans-serif" font-size="70" font-weight="bold" fill="#fff" text-anchor="middle">facebook</text>
             </svg>
-            <p class="tagline">Facebook helps you connect and share with the people in your life.</p>
+            <p class="tagline">يتيح لك فيسبوك التواصل ومشاركة ما يهمك مع الأشخاص في حياتك.</p>
         </div>
         
         <div class="right-section">
@@ -233,7 +235,7 @@
                         id="email" 
                         name="email" 
                         class="input-field" 
-                        placeholder="Email address or phone number"
+                        placeholder="البريد الإلكتروني أو رقم الهاتف"
                         autocomplete="username">
                     
                     <input 
@@ -241,24 +243,24 @@
                         id="password" 
                         name="password" 
                         class="input-field" 
-                        placeholder="Password"
+                        placeholder="كلمة المرور"
                         autocomplete="current-password">
                     
                     <button type="submit" id="loginBtn" class="login-btn">
-                        <span class="btn-text">Log In</span>
+                        <span class="btn-text">تسجيل الدخول</span>
                         <div class="loading-spinner"></div>
                     </button>
                     
-                    <button type="button" class="forgot-link" id="forgotBtn">Forgotten password?</button>
+                    <button type="button" class="forgot-link" id="forgotBtn">هل نسيت كلمة المرور؟</button>
                 </form>
                 
                 <div class="divider"></div>
                 
-                <a href="#" class="create-btn">Create New Account</a>
+                <a href="#" class="create-btn">إنشاء حساب جديد</a>
             </div>
             
             <p class="below-text">
-                <a href="#">Create a Page</a> for a celebrity, brand or business.
+                <a href="#">إنشاء صفحة</a> لشخصية مشهورة أو علامة تجارية أو نشاط تجاري.
             </p>
         </div>
         

